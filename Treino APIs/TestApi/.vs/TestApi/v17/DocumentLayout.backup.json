@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|c:\\users\\luiz\\desktop\\csharp\\treino apis\\testapi\\services\\viacepservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|solutionrelative:services\\viacepservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|c:\\users\\luiz\\desktop\\csharp\\treino apis\\testapi\\refit\\iviaceprefit .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|solutionrelative:refit\\iviaceprefit .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|c:\\users\\luiz\\desktop\\csharp\\treino apis\\testapi\\api\\builderextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|solutionrelative:api\\builderextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|c:\\users\\luiz\\desktop\\csharp\\treino apis\\testapi\\controllers\\viacepcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|solutionrelative:controllers\\viacepcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|c:\\users\\luiz\\desktop\\csharp\\treino apis\\testapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BE424CE-48BF-47EA-8CC5-CCC14177386B}|ViaCepApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 176,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ViaCepService.cs",
+              "DocumentMoniker": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Services\\ViaCepService.cs",
+              "RelativeDocumentMoniker": "Services\\ViaCepService.cs",
+              "ToolTip": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Services\\ViaCepService.cs",
+              "RelativeToolTip": "Services\\ViaCepService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:54:21.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IViaCepRefit .cs",
+              "DocumentMoniker": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Refit\\IViaCepRefit .cs",
+              "RelativeDocumentMoniker": "Refit\\IViaCepRefit .cs",
+              "ToolTip": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Refit\\IViaCepRefit .cs",
+              "RelativeToolTip": "Refit\\IViaCepRefit .cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:53:24.486Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAywBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:45:11.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BuilderExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Api\\BuilderExtensions.cs",
+              "RelativeDocumentMoniker": "Api\\BuilderExtensions.cs",
+              "ToolTip": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Api\\BuilderExtensions.cs",
+              "RelativeToolTip": "Api\\BuilderExtensions.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAywCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:44:19.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ViaCepController.cs",
+              "DocumentMoniker": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Controllers\\ViaCepController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ViaCepController.cs",
+              "ToolTip": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\Controllers\\ViaCepController.cs",
+              "RelativeToolTip": "Controllers\\ViaCepController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:19:53.443Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

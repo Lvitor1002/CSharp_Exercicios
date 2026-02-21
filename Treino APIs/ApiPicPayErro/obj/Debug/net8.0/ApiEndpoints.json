@@ -1,0 +1,34 @@
+[
+  {
+    "ContainingType": "BackEndPicPay.Controllers.CarteiraController",
+    "Method": "CriarCarteira",
+    "RelativePath": "api/Carteira",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BackEndPicPay.Models.Requests.CarteiraRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BackEndPicPay.Controllers.TransferenciaController",
+    "Method": "CriarTransferencia",
+    "RelativePath": "api/Transferencia",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BackEndPicPay.Models.Requests.TransferenciaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

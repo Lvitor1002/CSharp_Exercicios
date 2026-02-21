@@ -1,0 +1,54 @@
+[
+  {
+    "ContainingType": "BtgApi.Controllers.AligotaController",
+    "Method": "Aplicar",
+    "RelativePath": "api/Aligota/Aplicacao",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "request",
+        "Type": "BtgApi.Requests.Request",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BtgApi.Controllers.AligotaController",
+    "Method": "Listar",
+    "RelativePath": "api/Aligota/Listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BtgApi.Controllers.AligotaController",
+    "Method": "Resgatar",
+    "RelativePath": "api/Aligota/Resgate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "request",
+        "Type": "BtgApi.Requests.Request",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

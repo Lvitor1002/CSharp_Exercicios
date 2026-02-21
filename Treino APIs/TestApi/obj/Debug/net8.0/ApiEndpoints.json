@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "ViaCepApi.Controllers.ViaCepController",
+    "Method": "Buscar",
+    "RelativePath": "api/ViaCep",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cep",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "TestApi.Entities.ViaCep",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

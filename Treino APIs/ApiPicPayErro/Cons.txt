@@ -1,0 +1,40 @@
+
+
+
+1? -> Microsoft.EntityFrameworkCore			<- Sempre vers?o mais antiga, 8.0.0
+2? -> Microsoft.EntityFrameworkCore.Tools	<- Sempre vers?o mais antiga, 8.0.0
+3? -> Microsoft.EntityFrameworkCore.Design	<- Sempre vers?o mais antiga, 8.0.0
+4? -> Pomelo.EntityFrameworkCore.MySql		<- Sempre vers?o mais antiga, 8.0.0
+
+
+
+1? Criar Models > [classe do Objeto]
+
+2? Criar Data > [classe do Nome Banco de dados]
+
+2.2? Criar Data > Map > [Mapeamento da entidade/tabela]
+
+3 Criar [Api]
+
+4? Criar Repository > Interfaces > [Interface do reposit?rio do objeto]
+
+4.1? Criar Repository > [Reposit?rio para o objeto]
+
+4.2? Criar dentro de Models > [requests] e [responses]
+
+4.3 Criar Utils > utilidades e verificações
+
+4.4? Criar Services >	[carteiras],
+						[transferencias],
+						[Autorizador],
+						[Notificacao]
+
+4.5? Criar Controllers > [Controlar as a??es/actions do objeto]
+
+5? Criar Injeção de depend?ncia no [Program]
+
+6? Configurar > appsettings.json
+
+7? Rodar Comandos > 
+Add-Migration InitialDB -Context PicPayDB
+Update-Database -Context PicPayDB

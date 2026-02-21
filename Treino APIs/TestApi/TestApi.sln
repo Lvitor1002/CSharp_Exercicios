@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaCepApi", "ViaCepApi.csproj", "{3BE424CE-48BF-47EA-8CC5-CCC14177386B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BE424CE-48BF-47EA-8CC5-CCC14177386B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE424CE-48BF-47EA-8CC5-CCC14177386B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE424CE-48BF-47EA-8CC5-CCC14177386B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE424CE-48BF-47EA-8CC5-CCC14177386B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5074B4F5-EC19-4F89-B575-CA939C13B68C}
+	EndGlobalSection
+EndGlobal

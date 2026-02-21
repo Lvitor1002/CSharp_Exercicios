@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Q2C+YzVtxAYFr5unb9aOkrDOdAJer5wWLyZyEmhOq3M=",
+  "Source": "BackEndPicPay",
+  "BasePath": "_content/BackEndPicPay",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

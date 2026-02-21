@@ -1,0 +1,32 @@
+
+-----------------------------------------------------------------------------------------------------
+
+Teste para desenvolvedores
+
+Problema:
+	
+	Um determinado produto financeiro recolhe imposto de renda apenas quando o cliente faz o seu resgate
+	O produto financeiro pode ter diversas >> 
+								aplica??es e
+								resgates,
+	no decorrer do tempo.
+
+	O cálculo do IR=Imposto de Renda segue a seguinte l?gica abaixo:
+
+		>At? 1 ano de aplica??o: 22,5% sobre o lucro;
+		>1 ? 2 anos de aplica??o: 18,5% sobre o lucro;
+		>Acima de 2 anos de aplica??o: 15% sobre o lucro
+
+	? Aplica??o n?o pode ser igual ou menor que zero
+
+	? A data de resgate n?o pode ser menor que a data de aplica??o
+
+-----------------------------------------------------------------------------------------------------
+
+Add-Migration NovoDB -Context BTGDB
+Update-Database -Context BTGDB
+
+
+
+
+

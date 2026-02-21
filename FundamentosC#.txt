@@ -1,0 +1,205 @@
+
+Early return: Uso de condições de saída antecipada com goto incremento
+goto incremento foi usado para não alterar a lógica, manter o mesmo comportamento
+
+continue ← Não funciona, pois pularia para PRÓXIMA LINHA do CSV, neste contexto de lógica! Para isso seria necessário refatorar todo o código. 
+
+
+#region Codigo de barras
+int controlaColunas = 0;
+var codigosBarrasProduto = new List<string>();
+
+if (iColCodigoBarras > 0 && iColCodigoBarras <= Linha.Length)
+{
+    for (int i = iColCodigoBarras - 1; i < Linha.Length; i++)
+    {
+        string campo = Linha[i].Trim();
+        
+        bool podeSerCodigoBarras = !string.IsNullOrEmpty(campo) &&
+                                  !campo.Contains(";") &&
+                                  !campo.Contains(",") &&
+                                  campo.Length >= 8 &&
+                                  campo.Length <= 20;
+
+        if (!podeSerCodigoBarras) break;
+
+        string codigoProcessado = chkLetrasCaracteresEspeciais.Checked ? campo : FuncoesUteis.somenteNumeros(campo);
+        bool codigoValido = !string.IsNullOrEmpty(codigoProcessado) && codigoProcessado.Length >= 8;
+
+        if (!codigoValido) break;
+
+        codigosBarrasProduto.Add(codigoProcessado);
+        controlaColunas++;
+    }
+    controlaColunas = Math.Max(0, controlaColunas - 1);
+}
+listaCodigosBarras.Add(codigosBarrasProduto);
+#endregion Codigo de barras
+
+int IndiceAjustado(int colunaOriginal) => 
+    colunaOriginal <= iColCodigoBarras ? colunaOriginal - 1 : (colunaOriginal - 1) + controlaColunas;
+
+#region Descricao
+if (iColDescricao > Linha.Length) goto incremento;
+
+int indiceAjustadoDescricao = IndiceAjustado(iColDescricao);
+bool indiceDescricaoValido = indiceAjustadoDescricao < Linha.Length && indiceAjustadoDescricao >= 0;
+
+if (!indiceDescricaoValido)
+{
+    sDescricao.Add("Descrição Inválida");
+    goto incremento;
+}
+
+sBusca = Linha[indiceAjustadoDescricao].Trim().Replace("'", "`").Replace("\\", "\\\\");
+sBusca = string.IsNullOrEmpty(sBusca) ? "  <em branco>" : sBusca;
+sBusca = sBusca.Length > 99 ? sBusca.Substring(0, 99) : sBusca;
+
+sDescricao.Add(sDescricao.Exists(Equals) ? sBusca + " " + sDescricao.Count.ToString() : sBusca);
+#endregion Descricao
+
+#region Preco venda
+if (iColPrecoVenda > Linha.Length) goto incremento;
+
+int indiceAjustadoPrecoVenda = IndiceAjustado(iColPrecoVenda);
+bool precoVendaValido = indiceAjustadoPrecoVenda < Linha.Length && 
+                       indiceAjustadoPrecoVenda >= 0 && 
+                       !string.IsNullOrWhiteSpace(Linha[indiceAjustadoPrecoVenda]);
+
+sPrecoVenda.Add(precoVendaValido ? Convert.ToDouble(Linha[indiceAjustadoPrecoVenda].Replace(".", ",")) : 0);
+#endregion Preco venda
+
+#region Preco custo
+double precoCusto = 0.01;
+if (iColPrecoCusto > 0 && iColPrecoCusto <= Linha.Length)
+{
+    int indiceAjustadoPrecoCusto = IndiceAjustado(iColPrecoCusto);
+    bool precoCustoValido = indiceAjustadoPrecoCusto < Linha.Length && 
+                           indiceAjustadoPrecoCusto >= 0 && 
+                           !string.IsNullOrWhiteSpace(Linha[indiceAjustadoPrecoCusto]) &&
+                           Convert.ToDouble(Linha[indiceAjustadoPrecoCusto].Replace(".", "")) > 0;
+
+    precoCusto = precoCustoValido ? Convert.ToDouble(Linha[indiceAjustadoPrecoCusto].Replace(".", ",")) : 0.01;
+}
+sPrecoCusto.Add(precoCusto);
+#endregion Preco custo
+
+#region Estoque Inicial
+double estoqueAtual = 0;
+if (iColEstoqueAtual > 0 && iColEstoqueAtual <= Linha.Length)
+{
+    int indiceAjustadoEstoque = IndiceAjustado(iColEstoqueAtual);
+    bool estoqueValido = indiceAjustadoEstoque < Linha.Length && 
+                        indiceAjustadoEstoque >= 0 && 
+                        !string.IsNullOrWhiteSpace(Linha[indiceAjustadoEstoque]) &&
+                        Convert.ToDouble(Linha[indiceAjustadoEstoque].Replace(".", "")) > 0;
+
+    estoqueAtual = estoqueValido ? Convert.ToDouble(Linha[indiceAjustadoEstoque].Replace(".", ",")) : 0;
+}
+sEstoqueAtual.Add(estoqueAtual);
+#endregion Estoque Inicial
+
+#region Grupo
+string InsereGrupo = "";
+string grupo = "";
+
+if (iColGrupo > 0 && iColGrupo <= Linha.Length)
+{
+    int indiceAjustadoGrupo = IndiceAjustado(iColGrupo);
+    bool grupoValido = indiceAjustadoGrupo < Linha.Length && indiceAjustadoGrupo >= 0;
+    
+    grupo = grupoValido ? Linha[indiceAjustadoGrupo] : "";
+    InsereGrupo = grupoValido && !sGrupo.Exists(Equals) ? 
+        $"INSERT INTO \"ProdutosGrupo\" (\"Nome\", \"IdEmpresa\") VALUES ('{grupo}',1);" : "";
+}
+sGrupo.Add(grupo);
+#endregion Grupo
+
+#region SubGrupo
+string InsereSubGrupo = "";
+string subGrupo = "";
+
+if (iColSubGrupo > 0 && iColSubGrupo <= Linha.Length)
+{
+    int indiceAjustadoSubGrupo = IndiceAjustado(iColSubGrupo);
+    bool subGrupoValido = indiceAjustadoSubGrupo < Linha.Length && indiceAjustadoSubGrupo >= 0;
+    
+    subGrupo = subGrupoValido ? Linha[indiceAjustadoSubGrupo] : "";
+    InsereSubGrupo = subGrupoValido && !sSubGrupo.Exists(Equals) ? 
+        $"INSERT INTO \"ProdutosSubGrupo\" (\"Nome\", \"IdEmpresa\", \"IdProdutoGrupo\") VALUES ('{subGrupo}',1, (select COALESCE(\"Codigo\",100) from \"ProdutosGrupo\" where \"Nome\" = '{subGrupo}' limit 1));" : "";
+}
+sSubGrupo.Add(subGrupo);
+#endregion SubGrupo
+
+#region NCM
+string ncm = "99999999";
+if (iColNCM > 0 && iColNCM <= Linha.Length)
+{
+    int indiceAjustadoNCM = IndiceAjustado(iColNCM);
+    bool ncmValido = indiceAjustadoNCM < Linha.Length && 
+                    indiceAjustadoNCM >= 0 && 
+                    Linha[indiceAjustadoNCM].Replace('\0', ' ').Replace(" ", " ").Replace(".", "").Length == 8;
+
+    ncm = ncmValido ? Linha[indiceAjustadoNCM].Replace('\0', ' ').Replace(".", "").Replace(" ", "") : "99999999";
+}
+sNCM.Add(ncm);
+#endregion NCM
+
+#region CEST
+string cest = "null";
+if (iColCEST > 0 && iColCEST <= Linha.Length)
+{
+    int indiceAjustadoCEST = IndiceAjustado(iColCEST);
+    if (indiceAjustadoCEST < Linha.Length && indiceAjustadoCEST >= 0)
+    {
+        string codigoCEST = Linha[indiceAjustadoCEST].Replace('\0', ' ').Replace(" ", " ").Replace(".", "");
+        cest = codigoCEST.Length == 7 ? codigoCEST :
+               codigoCEST.Length > 0 && codigoCEST.Length < 7 ? codigoCEST.PadLeft(7, '0') : "null";
+    }
+}
+sCEST.Add(cest);
+#endregion CEST
+
+#region Codigo Fornecedor
+string codFornecedor = "null";
+if (iColCodigoFornecedor > 0 && iColCodigoFornecedor <= Linha.Length)
+{
+    int indiceAjustadoCodFornecedor = IndiceAjustado(iColCodigoFornecedor);
+    bool codFornecedorValido = indiceAjustadoCodFornecedor < Linha.Length && indiceAjustadoCodFornecedor >= 0;
+    codFornecedor = codFornecedorValido ? "'" + Linha[indiceAjustadoCodFornecedor] + "'" : "null";
+}
+sCodFornecedor.Add(codFornecedor);
+#endregion Codigo Fornecedor
+
+#region Unidade
+string unidade = "null";
+if (colUnidade > 0 && colUnidade <= Linha.Length)
+{
+    int indiceAjustadoUnidade = IndiceAjustado(colUnidade);
+    bool unidadeValida = indiceAjustadoUnidade < Linha.Length && indiceAjustadoUnidade >= 0;
+    unidade = unidadeValida ? Linha[indiceAjustadoUnidade].Trim() : "null";
+}
+listaUnidades.Add(unidade);
+#endregion Unidade
+
+#region Classificacao
+var todosCodigosClassificacao = new List<string> { "101", "201", "301", "401", "501", "601" };
+string classificacao = "null";
+
+if (colClassificacao > 0 && colClassificacao <= Linha.Length)
+{
+    int indiceAjustadoClassificacao = IndiceAjustado(colClassificacao);
+    if (indiceAjustadoClassificacao < Linha.Length && indiceAjustadoClassificacao >= 0)
+    {
+        string codigoClassificacao = Linha[indiceAjustadoClassificacao].Trim();
+        bool classificacaoValida = !string.IsNullOrEmpty(codigoClassificacao) && 
+                                  todosCodigosClassificacao.Contains(codigoClassificacao, StringComparer.OrdinalIgnoreCase);
+
+        classificacao = classificacaoValida ? codigoClassificacao : "null";
+        
+        if (!classificacaoValida && !string.IsNullOrEmpty(codigoClassificacao))
+            listaCodigosClassificacaoIncompativeis.Add(codigoClassificacao);
+    }
+}
+listaClassificacao.Add(classificacao);
+#endregion Classificacao

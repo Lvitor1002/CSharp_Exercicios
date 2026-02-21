@@ -1,0 +1,144 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BackEndPicPay",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Carteira": {
+      "post": {
+        "tags": [
+          "Carteira"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.CarteiraRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.CarteiraRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.CarteiraRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Transferencia": {
+      "post": {
+        "tags": [
+          "Transferencia"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.TransferenciaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.TransferenciaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackEndPicPay.Models.Requests.TransferenciaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BackEndPicPay.Models.Enum.TipoUsuario": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "BackEndPicPay.Models.Requests.CarteiraRequest": {
+        "required": [
+          "cpFcnpj",
+          "email",
+          "nomeCompleto",
+          "saldoConta",
+          "senha",
+          "tipo"
+        ],
+        "type": "object",
+        "properties": {
+          "nomeCompleto": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "cpFcnpj": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "senha": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tipo": {
+            "$ref": "#/components/schemas/BackEndPicPay.Models.Enum.TipoUsuario"
+          },
+          "saldoConta": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BackEndPicPay.Models.Requests.TransferenciaRequest": {
+        "required": [
+          "enviarId",
+          "receberId",
+          "valor"
+        ],
+        "type": "object",
+        "properties": {
+          "valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "enviarId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "receberId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
