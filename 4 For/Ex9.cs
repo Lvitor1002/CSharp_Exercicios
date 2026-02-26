@@ -46,6 +46,9 @@ class Treino
         int idade_homem_velho = 0;
         string homem_velho = null;
 
+        //Sempre da condição mais específica para a mais geral.
+        //A condição mais específica é aquela que cobre menos casos.
+        //A condição mais geral é aquela que cobre mais casos.
         for (int i=0; i<4; i++)
         {
             string sexo;

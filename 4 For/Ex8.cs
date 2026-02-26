@@ -18,6 +18,9 @@ class Treino
         int menor_idade = 0;
         int idade;
 
+        //Sempre da condição mais específica para a mais geral.
+        //A condição mais específica é aquela que cobre menos casos.
+        //A condição mais geral é aquela que cobre mais casos.
         Console.Write("\n>Digite o ano de nascimento de 7 pessoas:\n\n");
         for (int i = 0; i < 7; i += 1)
         {
