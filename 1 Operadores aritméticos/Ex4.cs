@@ -1,39 +1,47 @@
 ﻿
+/* Crie um programa que leia quanto dinheiro uma pessoa tem na carteira e (mostre quantos dólares ela pode comprar).
+Não é converção.
+Dolar atual 19/2025: 5,22
+valor/5.22
+*/
 
-// Crie um programa que leia quanto dinheiro uma pessoa tem na carteira e (mostre quantos dólares ela pode comprar).
-// Não é converção.
-//dolar atual 01/2025: 6,17
-// valor/6.17
+
 using System;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => Exibir();
-        private static decimal RetornaDolares()
+        private const decimal _dolarAtual = 5.22m;
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static decimal RetornarNumeroInput()
         {
-            decimal valor;
+            decimal reais;
             while (true)
             {
-                Console.Write("Quantos reais possui na carteria? R$ ");
+                Console.Write($"Quantos reais você possuí na carteira? R$ ");
                 string entrada = Console.ReadLine().Trim();
-                if(!decimal.TryParse(entrada, out valor) || valor < 0)
-                {
+                if(!decimal.TryParse(entrada, out reais) || reais <= 0){
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
-            return valor / 6.17m;
+            return reais;
         }
-        private static void Exibir()
+
+        private static decimal RetornarCalculo(decimal reais)
+            => reais / _dolarAtual;
+
+        private static void ExibirDados()
         {
-            decimal valor = RetornaDolares();
+            decimal reais = RetornarNumeroInput();
             Console.Clear();
-            Console.WriteLine($"Com o valor informado, você pode comprar US${valor:F2}\n");
+            Console.WriteLine($"Com o valor informado, você pode comprar US${RetornarCalculo(reais):F2}\n");
         }
     }
 }
-

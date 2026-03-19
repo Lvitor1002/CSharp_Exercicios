@@ -3,34 +3,51 @@
 
 using System;
 
-
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main()
-        {
-            CalcularValor();
-        }
 
-        private static void CalcularValor()
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int LeituraDados()
         {
-            double valor;
+            int numero;
             while (true)
             {
-                Console.Write("Entre com um valor real: ");
-                string entrada = Console.ReadLine();
-                if (!double.TryParse(entrada, out valor))
-                {
+                Console.Write("Entre com um número: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int.TryParse(entrada, out numero) || numero <= 0){
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Tente novamente. Digite um valor inteiro ou real.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
-            Console.Clear();
-            Console.WriteLine($"Dobro: {valor * 2}\nTriplo: {valor * 3}\nRaiz de {valor}: {Math.Sqrt(valor):f0}");
+            return numero;
         }
+
+        private static int RetornarDobroValor(int valor)
+            => valor * 2;
+
+        private static int RetornarTriploValor(int valor)
+            => valor * 2;
+
+        private static double RetornarRaizValor(double valor)
+            => Math.Sqrt(valor);
+
+        private static void ExibirDados()
+        {
+            int numero = LeituraDados();
+            Console.Clear();
+            
+            Console.WriteLine($@"
+Dobro do {numero}: {RetornarDobroValor(numero)}
+Triplo do {numero}: {RetornarTriploValor(numero)}
+Raiz do {numero}: {RetornarRaizValor(Convert.ToDouble(numero)):F2}
+");
+        }
+
     }
 }
-

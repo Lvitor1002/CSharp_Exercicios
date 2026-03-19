@@ -1,62 +1,65 @@
 ﻿
-
 /*
 Faça um programa que leia a largura e a altura de uma parede em metros, 
 calcule a sua área e a quantidade de tinta necessária para pinta-lá, 
 sabendo que cada litro de tinta, pinta uma área de 2m^2.
 */
+
+
 using System;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => Exibir();
-        private static (decimal, decimal) Calcular()
-        {
-            decimal altura, largura;
+        private const decimal _dolarAtual = 5.22m;
 
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static (double,double) RetornarNumerosInput()
+        {
+            double largura, altura;
             while (true)
             {
-                Console.Write("Entre com um valor para altura: ");
-                string entradaAltura = Console.ReadLine().Trim();
-                if(!decimal.TryParse(entradaAltura, out altura) || altura < 0){
+                Console.Write($"Entre com a largura da parede: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!double.TryParse(entrada, out largura) || largura <= 0){
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida para altura.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
             while (true)
             {
-                Console.Write("Entre com um valor para largura: ");
-                string entradaLargura = Console.ReadLine().Trim();
-                if (!decimal.TryParse(entradaLargura, out largura) || largura < 0)
+                Console.Write($"Entre com a altura da parede: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, out altura) || altura <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida para largura.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
-            decimal area = AreaReatangulo(altura, largura);
-            decimal quantidade = QuantidadeLitrosNecessarioParede(altura, largura);
-            return (area, quantidade);
+            return (largura, altura);
         }
 
-        private static decimal AreaReatangulo(decimal altura, decimal largura)
-            => altura * largura;
+        private static double RetornarAreaParede(double largura, double altura)
+            => largura * altura;
 
-        private static decimal QuantidadeLitrosNecessarioParede(decimal altura, decimal largura)
-            => AreaReatangulo(altura, largura) / 2;
+        private static double RetornarQuantidadeTinta(double area)
+            => area / 2;
 
-        private static void Exibir()
+        private static void ExibirDados()
         {
-            var (area, quantidade) = Calcular();
+            var (largura, altura) = RetornarNumerosInput();
+            double areaParede = RetornarAreaParede(largura, altura);
+
             Console.Clear();
-            Console.WriteLine($"\nÁrea da parede: {area}m²");
-            Console.WriteLine($"Quantidade de tinta necessária: {quantidade} litros");
+            Console.WriteLine($"\nÁrea da parede: {areaParede}m²");
+            Console.WriteLine($"Quantidade de tinta necessária: {RetornarQuantidadeTinta(areaParede)} litros");
         }
     }
 }
-

@@ -1,35 +1,47 @@
 ﻿
-//# Faça um programa que leia um número e mostre na tela o seu sucessor e seu antecessor.
+// Faça um programa que leia um número e mostre na tela o seu sucessor e seu antecessor.
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int numero;
 
-        while (true) {
-            Console.Clear();
-            Console.WriteLine(new string('=', 20));
-            Console.Write(">Digite um número: ");
-            string n = Console.ReadLine();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-            if (int.TryParse(n, out numero)) {
-                Console.Clear();
-                Console.WriteLine(new string('~', 50));
-                Console.WriteLine($">Sucessor de [{numero}]: {numero+1}\n>Antecessor de [{numero}]: {numero-1}");
-                Console.WriteLine(new string('~', 50));
+        private static int RetornarNumeroInput()
+        {
+            int numero;
+            while (true)
+            {
+                Console.Write("Entre com um número: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int.TryParse(entrada, out numero) || numero <= 0){
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("\n>Erro, entrada inválida.\n>Tente novamente..\n");
-            }
+            return numero;
+        }
 
+        private static int[] RetornarNumeros(int numero)
+            => new int[] { numero - 1, numero + 1 };
+
+        private static void ExibirDados()
+        {
+            int numero = RetornarNumeroInput();
+            var numeros = RetornarNumeros(numero);
+
+            Console.Clear();
+            Console.WriteLine($@"
+Sucessor do número {numero} é {numeros[1]}
+Antecessor do número {numero} é {numeros[0]}
+");
         }
 
     }
-    
 }

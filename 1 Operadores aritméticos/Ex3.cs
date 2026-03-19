@@ -1,37 +1,46 @@
 ﻿
-
 //# Faça um programa que leia um número int e mostre na tela a sua tabuada.
+
 
 using System;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => Exibir();
-        private static int Tabuada()
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarNumeroInput()
         {
             int numero;
             while (true)
             {
-                Console.Write("Entre com um número e veja a tabuada correspondente: ");
+                Console.Write($"Entre com um número: ");
                 string entrada = Console.ReadLine().Trim();
-                if(!int.TryParse(entrada, out numero) || numero < 0)
-                {
+                if(!int.TryParse(entrada, out numero) || numero <= 0){
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
             return numero;
         }
-        private static void Exibir()
+
+        private static void RetornarTabuada(int numero)
         {
-            var numero = Tabuada();
-            for (int i = 0; i <= 10; i++)
-                Console.WriteLine($"{numero} x {i} = {numero * i}");
+            Console.Clear();
+            
+            Console.WriteLine($"Tabuada do {numero}:");
+            for(int i = 0; i <= 10; i++)
+                Console.WriteLine($@"{numero} x {i} = {numero * i}");
+            Console.WriteLine();
         }
+
+        private static void ExibirDados()
+            => RetornarTabuada(RetornarNumeroInput());
+
     }
 }
-

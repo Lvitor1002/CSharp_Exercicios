@@ -1,42 +1,52 @@
-﻿//# Faça um programa que calcule a média entre 4 números usando FOR.
+﻿
+//# Faça um programa que calcule a média entre 4 números usando FOR.
+
 
 using System;
 using System.Linq;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => Exibir();
-        private static int[] Calculo()
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int[] RetornarNumerosInput()
         {
-            int[] numeros = new int[4];
-            
-            Console.WriteLine("Digite abaixo 4 notas: ");
-            for (int i = 0; i < 4; i++)
+
+            var numeros = new int[4];
+
+            for(int i = 0; i < numeros.Length; i++)
             {
+                int numero;
                 while (true)
                 {
-                    Console.Write($"{i + 1}ª Nota: ");
+                    Console.Write($"Entre com o {i+1}ª número: ");
                     string entrada = Console.ReadLine().Trim();
-                    if(!int.TryParse(entrada, out int numero) || numero < 0)
-                    {
+                    if(!int.TryParse(entrada, out numero) || numero <= 0){
                         Console.Clear();
-                        Console.WriteLine("Valor inválido, tente novamente.");
+                        Console.WriteLine("Entrada inválida.");
                         continue;
                     }
-                    numeros[i] = numero;
                     break;
                 }
+                numeros[i] = numero;
             }
             return numeros;
         }
-        private static void Exibir()
+
+        private static double RetornarMediaNumeros(int[] numeros)
+            => numeros.Average();
+
+        private static void ExibirDados()
         {
-            var numeros = Calculo();
+            var numeros = RetornarNumerosInput();
+
             Console.Clear();
-            Console.WriteLine($"\n\nA média entre {string.Join(", ", numeros)} é: {numeros.Average()}");
+            Console.WriteLine($"Média dos números [{string.Join(", ", numeros)}]: {RetornarMediaNumeros(numeros):F2}");
         }
+
     }
 }
-
