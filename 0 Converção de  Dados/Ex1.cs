@@ -1,7 +1,9 @@
 
-
 /*
 Combine valores de um array de strings como strings e como inteiros
+
+string[] values = { "12.3", "45", "ABC", "11", "DEF" };
+
 
 É necessário implementar as seguintes regras de negócios em sua lógica de código:
 
@@ -15,32 +17,46 @@ Output esperado:
                 Message: ABCDEF
                 Total: 68.3
 */
+
+
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace Fundamentos
 {
-    internal class Program
+    public class Program
     {
 
-        static void Main(string[] args)
-            => ConverterValores();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        private static void ConverterValores()
+
+        private static (string, decimal[]) RetornarArrays()
         {
             string[] values = { "12.3", "45", "ABC", "11", "DEF" };
+            string conjuntoLetras = "";
+            var conjuntoNumeros = new decimal[values.Length];
 
-            string mensagem = "";
-            decimal total = 0m;
-
-            foreach (var valor in values)
-            {
-                if (decimal.TryParse(valor, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorConvetidoEmDecimal))
-                    total += valorConvetidoEmDecimal;
+            for(int i = 0; i < values.Length; i++)
+                if(decimal.TryParse(values[i], NumberStyles.Any,CultureInfo.InvariantCulture, out decimal numero))
+                    conjuntoNumeros[i] += numero;
                 else
-                    mensagem += valor;
-            }
-            Console.WriteLine($"Mensagem: {mensagem}\nTotal: {total}");
+                    conjuntoLetras += values[i];
+
+            return (conjuntoLetras, conjuntoNumeros);
         }
+        private static void ExibirDados()
+        {
+            var (conjuntoLetras, conjuntoNumeros) = RetornarArrays();
+            Console.Clear();
+
+            Console.WriteLine($@"
+Mensagem: {string.Join("",conjuntoLetras)}
+Total: {conjuntoNumeros.Sum(x=>x).ToString().Replace(",","."):F1}              
+");
+
+        }
+
     }
 }

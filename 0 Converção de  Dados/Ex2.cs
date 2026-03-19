@@ -36,7 +36,7 @@ namespace Fundamentos
             Console.WriteLine($"Divide value1 by value2, display the result as an int: {result1}");
 
 
-            decimal result2 = value2 / (decimal)value3;
+            decimal result2 = value2 / Convert.ToDecimal(value3);
             Console.WriteLine($"Divide value2 by value3, display the result as a decimal: {result2}");
 
 
