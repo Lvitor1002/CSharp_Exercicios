@@ -1,58 +1,63 @@
 ﻿
-
 /*
 Escreva um programa que pergunte a quantidade de Km percorridos por um carro alugado e a quantidade de dias 
 pelos quais ele foi alugado. 
 Calcule o preço a pagar, sabendo que o carro custa R$60 por dia e R$0,15 por Km rodado.
 */
+
+
 using System;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => Exibir();
-        private static (int,int,decimal) CalcularValorTotal()
+        private static double _custoPorDia = 60;
+        private static double _custoPorKm = 0.15;
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static (int,int) RetornarDadosInput()
         {
-            const decimal VALOR_DIA = 60m, VALOR_KM = 0.15m;
-            int diasAlugado, quantidadeKm;
+            int quantidadeDiasAlugado, kmsRodados;
 
             while (true)
             {
-                Console.Write("Entre com a quantidade de Km's rodados: ");
+                Console.Write($"Entre com a quantidade de dias que o automóvel ficou alugado: ");
                 string entrada = Console.ReadLine().Trim();
-                if(!int.TryParse(entrada, out quantidadeKm) || quantidadeKm < 0)
+                if (!int.TryParse(entrada, out quantidadeDiasAlugado) || quantidadeDiasAlugado <=0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
             while (true)
             {
-                Console.Write("Entre com a quantidade total de dias de aluguel do carro: ");
+                Console.Write($"Entre com o total de quilometros rodados pelo automóvel: ");
                 string entrada = Console.ReadLine().Trim();
-                if (!int.TryParse(entrada, out diasAlugado) || diasAlugado < 0)
-                {
+                if(!int.TryParse(entrada, out kmsRodados) || kmsRodados <= 0){
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    Console.WriteLine("Entrada inválida.");
                     continue;
                 }
                 break;
             }
-            decimal valorTotal = VALOR_DIA * diasAlugado + VALOR_KM * quantidadeKm;
-            return (diasAlugado, quantidadeKm, valorTotal);
+            return (kmsRodados, quantidadeDiasAlugado);
         }
 
-        private static void Exibir()
+        private static double RetornarPrecoCobradoAluguel(int quantidadeDiasAlugado, int kmsRodados)
+            => (quantidadeDiasAlugado * _custoPorDia) + (kmsRodados * _custoPorKm);
+
+        private static void ExibirDados()
         {
-            
-            var (diasAlugado, quantidadeKm, valorTotal) = CalcularValorTotal();
+           
+            var (kmsRodados, quantidadeDiasAlugado) = RetornarDadosInput();
 
             Console.Clear();
-            Console.WriteLine($"Valor total a pagar pelo aluguel de {diasAlugado} dias e {quantidadeKm}KM rodados: {valorTotal:F2}\n");
+            Console.WriteLine($"O automóvel rodou {kmsRodados}km alugado por {quantidadeDiasAlugado} dias, portanto o valor cobrado será: {RetornarPrecoCobradoAluguel(kmsRodados,quantidadeDiasAlugado):C2}");
         }
     }
 }
-

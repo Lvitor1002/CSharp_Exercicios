@@ -1,28 +1,44 @@
 ﻿
-
 //Escreva um programa que converta uma temperatura digitando em graus Celsius e converta para graus Fahrenheit.
+
+
+
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        while (true)
-        {
-            double valor;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-            Console.Write("Temperatura atual em graus 'Celsius': ");
-            string t = Console.ReadLine();
-            if (double.TryParse(t, out valor) && valor >= 0){
-                Console.Clear();
-                Console.Write($"\n>Temperatura convertida em {((valor * 9) / 5) + 32:F1} Fahrenheit.\n\n");
+        private static double RetornarNumeroInput()
+        {
+            double Celsius;
+            while (true)
+            {
+                Console.Write($"Entre com um valor de graus celsius: °");
+                string entrada = Console.ReadLine().Trim();
+                if(!double.TryParse(entrada, out Celsius)){
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Erro, entrada inválida.. Esperava um 'inteiro ou real..\n");
-            }
+            return Celsius;
+        }
+
+        private static double RetornarFahrenheit(double valorCelsius)
+            => (valorCelsius * 1.8) + 32;
+
+        private static void ExibirDados()
+        {
+           
+            double valorCelsius = RetornarNumeroInput();
+
+            Console.Clear();
+            Console.WriteLine($"Temperatura de {valorCelsius}º Graus Celsius convertida para {RetornarFahrenheit(valorCelsius)}º fahrenheit");
         }
     }
 }

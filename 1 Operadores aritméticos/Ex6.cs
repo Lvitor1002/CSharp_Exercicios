@@ -1,29 +1,46 @@
 ﻿
-
 // Faça um algoritmo que leia o preço de um produto e mostre seu novo preço, com 5% de desconto.
+
+
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        while (true)
-        {
-            double valor;
+        private const decimal _desconto = 0.95m;
 
-            Console.Write("Valor do produto: R$ ");
-            string v = Console.ReadLine();
-            if (double.TryParse(v, out valor) && valor >= 0){
-                Console.Clear();
-                Console.Write($"\n>Parabéns!! Você recebeu um desconto de 5%...\n\n>Valor com desconto: R${valor * 0.95:F2}\n\n");
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static decimal RetornarNumeroInput()
+        {
+            decimal preco;
+            while (true)
+            {
+                Console.Write($"Entre com um valor: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!decimal.TryParse(entrada, out preco) || preco <= 0){
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Erro, entrada inválida.. Esperava um 'inteiro ou real..\n");
-            }
+            return preco;
+        }
+
+        private static decimal RetornarPrecoComReajuste(decimal preco)
+            => preco * _desconto;
+
+        private static void ExibirDados()
+        {
+           
+            decimal precoProduto = RetornarNumeroInput();
+
+            Console.Clear();
+            Console.WriteLine($"Preco {precoProduto:C2} com 5% de desconto: {RetornarPrecoComReajuste(precoProduto):C2}");
         }
     }
 }

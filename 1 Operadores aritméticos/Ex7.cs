@@ -1,29 +1,46 @@
 ﻿
-
 //# Faça um algoritmo que leia o salário de uma pessoa e mostre seu novo salário com 15% de aumento.
+
+
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        while (true)
-        {
-            double valor;
+        private const decimal _aumento = 1.15m;
 
-            Console.Write("Salário atual: R$ ");
-            string v = Console.ReadLine();
-            if (double.TryParse(v, out valor) && valor >= 0){
-                Console.Clear();
-                Console.Write($"\n>Parabéns!! Você recebeu um aumento de 15% em seu salário...\n\n>Aumento: R${valor * 1.15:F2}\n\n");
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static decimal RetornarNumeroInput()
+        {
+            decimal valorSalario;
+            while (true)
+            {
+                Console.Write($"Entre com o valor do salário: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!decimal.TryParse(entrada, out valorSalario) || valorSalario <= 0){
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Erro, entrada inválida.. Esperava um 'inteiro ou real..\n");
-            }
+            return valorSalario;
+        }
+
+        private static decimal RetornarSalarioComReajustePositivo(decimal valorSalario)
+            => valorSalario * _aumento;
+
+        private static void ExibirDados()
+        {
+           
+            decimal valorSalario = RetornarNumeroInput();
+
+            Console.Clear();
+            Console.WriteLine($"Salário de {valorSalario:C2} com 15% de aumento: {RetornarSalarioComReajustePositivo(valorSalario):C2}");
         }
     }
 }
