@@ -1,53 +1,50 @@
 ﻿
 
+
 //Faça um programa que leia um número de 0 a 9999 e mostre na tela cada um dos dígitos separados: unidade, centena, dezena, milhar.
 
 using System;
-using System.Linq;
-class Treino
+
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (numero, unidade, dezena, centena, milhar) = leitura();
-        Console.Clear();
-        Console.WriteLine($"Unidade: {unidade}");
-        Console.WriteLine($"Dezena: {dezena}");
-        Console.WriteLine($"Centena: {centena}");
-        Console.WriteLine($"Milhar: {milhar}");
-        
-    }
-    static (int numero, int unidade, int dezena, int centena, int milhar) leitura()
-    {
-        int numero;
-        
-        while (true)
+
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarNumeroInput()
         {
-            Console.Write(">Digite um número: ");
-            string n = Console.ReadLine();
-            if (int.TryParse(n, out numero) && numero >= 0)
+            int numero;
+            while (true)
             {
-                if (numero <= 9999)
-                {
-                    int unidade = numero % 10;
-                    int dezena = (numero / 10) % 10;
-                    int centena = (numero / 100) % 10;
-                    int milhar = (numero / 1000) % 10;
-                    return (numero, unidade, dezena, centena, milhar);
-                }
-                else
+                Console.Write($"Entre com um número de 0 à 9999: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out numero) || numero < 0 || numero > 9999)
                 {
                     Console.Clear();
-                    Console.Write(">Erro! Entrada inválida..\n>Fora do intervalo de 0 à 9999.\n");
+                    Console.WriteLine("Entrada inválida. Entre com um número válido.");
+                    continue;
                 }
+                break;
             }
-            else
-            {
-                Console.Clear();    
-                Console.Write(">Erro! Entrada inválida..\n>Esperava um número 'inteiro positivo'.\n");
-            }
+            return numero;
         }
 
-    }
-    
+        private static (int, int, int, int) RetornarUnidades(int numero)
+            =>  (numero % 10, 
+                (numero / 10) % 10, 
+                (numero / 100) % 10, 
+                (numero / 1000) % 10);
 
+        private static void ExibirDados()
+        {
+            int numero = RetornarNumeroInput();
+            var (unidade, dezena, centena, milhar) = RetornarUnidades(numero);
+
+            Console.Clear();
+            Console.WriteLine($"Unidade: {unidade}\nDezena: {dezena}\nCentena: {centena}\nMilhar: {milhar}");
+        }
+    }
 }

@@ -1,47 +1,49 @@
 ﻿
 
+
 //Crie um programa que leia o nome de uma cidade diga se ela começa ou não com o nome "SANTO".
 
 using System;
-using System.Globalization;
 using System.Linq;
-class Treino
+
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        while (true) {
-            Console.Write(">Digite o nome de uma cidade: ");
-            string nome = Console.ReadLine().Trim().ToLower();
-            if (!string.IsNullOrWhiteSpace(nome) && !nome.Any(char.IsDigit))
+
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static string RetornarNomeInput()
+        {
+            string nome;
+            while (true)
             {
-                if (nome.StartsWith("santo"))
+                Console.Write($"Entre com um nome: ");
+                nome = Console.ReadLine().Trim();
+                if (string.IsNullOrWhiteSpace(nome))
                 {
                     Console.Clear();
-                    Console.WriteLine($"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nome)} começa com 'santo'\n\n");
-                    break;
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
                 }
-                else
-                {
-                    Console.Clear();
-                    /*
-                     CultureInfo.CurrentCulture: Retorna informações sobre a cultura atual do sistema (idioma, formatação de datas, números, etc.).
-                    
-                    .TextInfo: Fornece funcionalidades para manipulação de texto, como capitalização.
-                    
-                    .ToTitleCase(n): Converte o texto n para Title Case, em que a primeira letra de cada palavra é maiúscula e as demais são minúsculas.
-                    
-                     */
-                    Console.Write($"> {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nome)} não começa com 'santo'!\n\n");
-                    break;
-                }
+                break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Tente novamente!\n\n");
-            }
+            return nome;
         }
 
+        private static void ValidarNome(string nome)
+        {
+            Console.Clear();
+            if (nome.Split(' ')[0].Contains("SANTO"))
+                Console.WriteLine($"Nome '{nome}' contém 'SANTO'");
+            else
+                Console.WriteLine($"Nome '{nome}' não contém 'SANTO'");
+        }
+
+        private static void ExibirDados()
+            => ValidarNome(RetornarNomeInput());
+
     }
-  
 }
