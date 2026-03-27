@@ -7,33 +7,43 @@ O número 6.127 tem a parte Inteira 6.
 */
 
 using System;
+using System.Globalization;
 
-
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        double real;
-        while (true)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static double RetornarNumeroInput()
         {
-            
-            Console.Write(">Digite um número real para conversão em inteiro: ");
-            string r = Console.ReadLine();
-            if (double.TryParse(r, out real)) {
+            double numero = 0;
 
-                Console.Clear();
-                int inteiro = (int)Math.Floor(real);
-
-                Console.Write("\n>Conversão de valores:\n");
-                Console.Write($">Número real: {real}\n>número inteiro: {inteiro}\n\n");
+            while (true)
+            {
+                Console.Write($"Entre com um número real: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, NumberStyles.Any, CultureInfo.InvariantCulture, out numero) || numero <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write($">Entrada [{r}] inválida! Esperava um número!\n\n");
-            }
+            return numero;
         }
-    }
 
+        private static int RetornarNumeroInteiro(double numero)
+            => (int)numero;
+
+        private static void ExibirDados()
+        {
+            double numero = RetornarNumeroInput();
+
+            Console.Clear();
+            Console.WriteLine($"Número real '{numero}' convertido em inteiro: {RetornarNumeroInteiro(numero)}");
+        }    
+    }
 }
