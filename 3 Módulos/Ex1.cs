@@ -1,62 +1,60 @@
 ﻿
 
 /*
- Faça um programa que leia o comprimento do cateto oposto e do cateto adjacente de um triângulo retângulo. 
+Faça um programa que leia o comprimento do cateto oposto e do cateto adjacente de um triângulo retângulo. 
 Calcule e mostre o comprimento da hipotenusa.
 */
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (cateto_ad, cateto_op, comprimento_hip) = Calculo();
-        
-        Console.Clear();
-        Console.Write($"\n>Cateto Oposto: {cateto_op}\n" +
-            $">Cateto Adjacente: {cateto_ad}\n" +
-            $">Comprimento da Hipotenusa: {comprimento_hip:F2} \n\n");
-    }
-    static (double cateto_ad, double cateto_op, double comprimento_hip) Calculo()
-    {
-        double cateto_op;
-        double cateto_ad;
-        
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Write("\n>Digite abaixo os valores dos..;\n\n");
-
-        while (true)
+        private static (double, double) RetornarComprimentosCatetos()
         {
-            Console.Write(">Cateto Oposto: ");
-            string op = Console.ReadLine();
-            if (double.TryParse(op, out cateto_op))
+            double co,ca;
+
+            while (true)
             {
+                Console.Write($"Entre com o comprimento do cateto oposto: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, out co) || co <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Entre com um número 'inteiro' ou 'real' maior ou igual a zero");
+                    continue;
+                }
                 break;
             }
-            else
+            while (true)
             {
-                Console.Clear();
-                Console.Write(">Entrada inválida, esperava um 'número'!\n\n");
-            }
-        }
-        while (true)
-        {
-            Console.Write(">Cateto Adjacente: ");
-            string ad = Console.ReadLine();
-            if (double.TryParse(ad, out cateto_ad))
-            {
+                Console.Write($"Entre com o comprimento do cateto adjacente: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, out ca) || ca <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Entre com um número 'inteiro' ou 'real' maior ou igual a zero");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida, esperava um 'número'!\n\n");
-            }
+            return (co,ca);
         }
 
-        double comprimento_hip = Math.Sqrt(Math.Pow(cateto_op, 2) + Math.Pow(cateto_ad, 2));
+        private static double RetornarHipotenusa(double co, double ca)
+            => Math.Sqrt(Math.Pow(ca, 2) + Math.Pow(co, 2));
+            
 
-        return (cateto_ad, cateto_op, comprimento_hip);
+        private static void ExibirDados()
+        {
+            var (catetoOposto, catetoAdjacente) = RetornarComprimentosCatetos();
+
+            Console.Clear();
+            Console.WriteLine($"Comprimento da Hipotenusa: {RetornarHipotenusa(catetoOposto,catetoAdjacente):F2}");
+        }    
     }
 }

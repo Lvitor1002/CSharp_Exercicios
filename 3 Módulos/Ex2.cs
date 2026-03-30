@@ -1,51 +1,44 @@
 ﻿
 
 /*
-  Faça um programa que leia um ângulo qualquer e mostre na tela o valor do seno, cosseno e tangente desse ângulo.
- */
+    Faça um programa que leia um ângulo qualquer e mostre na tela o valor do seno, cosseno e tangente desse ângulo.
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (angulo, cos, sen, tan) = Leitura();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Clear();
-        Console.Write($"\n>Convertendo o ângulo {angulo:F0}º:\n\n" +
-                         $">Seno de {angulo:F0}º: {sen:F2}\n" +
-                         $">Cosseno de {angulo:F0}º: {cos:F2}\n");
-        Console.WriteLine($">Tangente de {angulo:F0}º: {tan:F2}");
-
-
-
-
-    }
-    static (double angulo, double cos, double sen, double tan) Leitura()
-    {
-        double angulo;
-        
-        while (true)
+        private static double RetornarAnguloInput()
         {
-            Console.Write("\n>Digite o valor do Angulo: ");
-            string a = Console.ReadLine();
-            if (double.TryParse(a, out angulo))
+            double angulo;
+
+            while (true)
             {
+                Console.Write($"Entre com um valor para o ângulo: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, out angulo) || angulo <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Entre com um número 'inteiro' ou 'real' maior ou igual a zero");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida, esperava um 'número'!\n\n");
-            }
             
+            return (Math.PI * angulo) / 180;
         }
-        double radianos = Math.PI * angulo / 180;
-        double cos = Math.Cos(radianos);
-        double sen = Math.Sin(radianos);
-        double tan = Math.Tan(radianos);
 
-        return (angulo, cos, sen, tan);
+        private static void ExibirDados()
+        {
+            var angulo = RetornarAnguloInput();
+
+            Console.Clear();
+            Console.WriteLine($"\t  Ângulo de {angulo:F0}° Graus\n\nSeno: {Math.Sin(angulo):F2}\nCosseno: {Math.Cos(angulo):F2}\nTangente: {Math.Tan(angulo):F2}\n");
+        }    
     }
 }
