@@ -1,81 +1,47 @@
 ﻿
+
+
 /*
- Desenvolva um programa que leia seis números inteiros e mostre a soma apenas daqueles que forem pares. 
-Se o valor digitado for ímpar, desconsidere-o.
- */
+    Desenvolva um programa que leia seis números inteiros e mostre a soma apenas daqueles que forem pares. 
+    Se o valor digitado for ímpar, desconsidere-o.
+*/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var resultado = leitura();
 
-        int[] numeros = resultado.numeros;
-        List<int> par = resultado.par;
-       
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Clear();
-
-        Console.WriteLine(new string('~', 50));
-        Console.Write(">Números: ");
-        foreach (var numero in numeros)
+        private static int[] RetornarNumeros()
         {
-            Console.Write($"{numero} | ");
-        }
-        Console.WriteLine("");
+            var numeros = new int[6];
 
-        
-        Console.WriteLine(new string('~', 50));
-        Console.Write(">Números pares: ");
-        foreach(var p in par)
-        {
-            Console.Write($"{p} | ");
-        }
-        Console.WriteLine("");
-
-        Console.WriteLine(new string('~', 50));
-        Console.Write($">Soma dos números pares: {par.Sum()}\n");
-        Console.WriteLine(new string('~', 50));
-
-
-
-
-    }
-    static (int[] numeros, List<int> par) leitura()
-    {
-        int[] numeros = new int[6];
-        List<int> par = new List<int>();
-
-        Console.Write(">Digite 6 números abaixo\n\n");
-        for (int i = 0; i < 6; i += 1)
-        {
-            while (true)
-            {
-                Console.Write($">{i+1}ª: ");
-                string n = Console.ReadLine();
-                if (int.TryParse(n, out numeros[i]))
+            for (int i = 0; i < 6; i++)
+                while (true)
                 {
-                    if (numeros[i] % 2 == 0)
+                    Console.Write($"Entre com o {i+1}ª número: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!int.TryParse(entrada, out int numero) || numero < 0)
                     {
-                        par.Add(numeros[i]);
+                        Console.Clear();
+                        Console.WriteLine("Entrada inválida.");
+                        continue;
                     }
+                    numeros[i] = numero % 2 == 0 ? numero : 0;
                     break;
-                    
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.Write(">Entrada inválida. Esperava um número inteiro!\n");
-                }
-            }
-        }
-        return (numeros, par);
 
+            Console.Clear();
+            return numeros;
+        }
+
+
+        private static void ExibirDados()
+            =>Console.WriteLine($"\nSoma dos números pares digitados: {RetornarNumeros().Sum()}");
     }
-    
 }

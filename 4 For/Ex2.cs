@@ -1,33 +1,22 @@
 ﻿
+
+
 /*
- Faça um programa que calcule a soma entre todos os números que são múltiplos de três e que se encontram no intervalo de 1 até 500.
- */
+Faça um programa que calcule a soma entre todos os números que são múltiplos de três e que se encontram no intervalo de 1 até 500.
+*/
 
 using System;
+using System.Linq;
 
-class F2
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        Calculo();
-    }
 
-    static void Calculo()
-    {
-        int soma = 0;
-        Console.Clear(); // Limpa o console, equivalente ao 'os.system("cls")' no Python
-        Console.Write("\n>Números múltiplos de 3 de 1 à 500: ");
+        private static void Main(string[] args)
+            => ExibirSomaNumerosMultiplosTres();
 
-        for (int i = 1; i <= 500; i++)
-        {
-            if (i % 3 == 0)
-            {
-                soma += i;
-                Console.Write($"{i}-");
-            }
-        }
-
-        Console.WriteLine();
-        Console.WriteLine($"\nSoma dos números: {soma}\n");
+        private static void ExibirSomaNumerosMultiplosTres()
+            => Console.Write($"\nSoma dos números múltiplos de 3 no intervalo de 1 à 500: {string.Join(", ", Enumerable.Range(1, 500).Where(x => x % 3 == 0).Sum())}\n\n");
     }
 }

@@ -1,22 +1,21 @@
 ﻿
+
 /*
- Crie um programa que mostre na tela todos os números pares que estão no intervalo entre 1 e 50.
- */
+Crie um programa que mostre na tela todos os números pares que estão no intervalo entre 1 e 50.
+*/
 
 using System;
 using System.Linq;
 
-
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        Console.Write(">Números pares de 1 à 50:\n");
-        for (int i = 0; i<= 50; i += 2)
-        {
-            Console.Write($"{i}\n");
-        }
-        
+
+        private static void Main(string[] args)
+            => ExibirIntervaloNumeros();
+
+        private static void ExibirIntervaloNumeros()
+            =>Console.Write($"\nNúmeros de 1 à 50: {string.Join(", ", Enumerable.Range(1, 50).Where(x => x % 2 == 0))}.\n\n");
     }
-    
 }

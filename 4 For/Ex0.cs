@@ -1,25 +1,53 @@
 ﻿
+
+
 /*
- Faça um programa que mostre na tela uma contagem regressiva para o estouro de fogos de artifício, 
+Faça um programa que mostre na tela uma contagem regressiva para o estouro de fogos de artifício, 
 indo de 10 até 0, com uma pausa de 1 segundo entre eles
- */
+*/
 
 using System;
-using System.Linq;
 using System.Threading;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        Console.Clear();
-        Console.Write(">Contagem regressiva para o Ano novo!\n\n");
-        for (int c = 10; c >= 0; c-= 1) {
-            Console.WriteLine(c);
-            Thread.Sleep(1000);
+
+        private static void Main(string[] args)
+            => ExibirContagemRegressiva();
+
+        private static int RetornarNumeroContagem()
+        {
+            int numero;
+
+            while (true)
+            {
+                Console.Write($"Entre com um número desejado para uma contagem regressiva: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out numero) || numero <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
+                break;
+            }
+            return numero;
         }
-        Console.WriteLine("FELIZ 2025!!");
-        
+
+
+        private static void ExibirContagemRegressiva()
+        {
+            int numero = RetornarNumeroContagem();
+
+            Console.Clear();
+            
+            for (int c = numero; c >= 0; c--)
+            {
+                Console.WriteLine(c);
+                Thread.Sleep(1000);
+            }
+        }
     }
-    
 }
