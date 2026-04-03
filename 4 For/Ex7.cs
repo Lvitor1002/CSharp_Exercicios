@@ -1,62 +1,56 @@
 ﻿
+
 /*
 Crie um programa que leia uma frase qualquer e diga se ela é um palíndromo, desconsiderando os espaços.
 Exemplos de palíndromos: 
-APOS A SOPA, 
-A SACADA DA CASA, 
-A TORRE DA DERROTA, 
-O LOBO AMA O BOLO, 
-ANOTARAM A DATA DA MARATONA.
- */
+                        APOS A SOPA, 
+                        A SACADA DA CASA, 
+                        A TORRE DA DERROTA, 
+                        O LOBO AMA O BOLO, 
+                        ANOTARAM A DATA DA MARATONA.
+*/
+
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Globalization;
-using System.Threading;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        string frase;
-        string frase_inversa = "";
-        while (true)
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static string RetornarFraseInput()
         {
-            Console.Write(">Digite uma frase: ");
-            frase = Console.ReadLine().Trim().ToLower();
-            if (!string.IsNullOrWhiteSpace(frase) && !frase.Any(char.IsDigit))
+            string frase;
+            while (true)
             {
+                Console.Write("Entre com um número: ");
+                frase = Console.ReadLine().Trim();
+                if (string.IsNullOrWhiteSpace(frase) || frase.Any(char.IsDigit))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Digite uma frase válida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida. Esperava uma frase em 'string'!\n");
-            }
+            return frase;
         }
-        //Deixando a frse inversa:
-        for (int i = frase.Length - 1; i >= 0; i -= 1)
+        private static bool FraseEhPalindromo(string frase)
         {
-            
-            frase_inversa += frase[i];  //frase[i] pega o caractere da string frase na posição i
-            // frase_inversa pega o caractere atual (frase[i]) e o adiciona no final da string frase_inversa
+            string fraseSemEspacos = frase.Replace(" ", "");
+            return fraseSemEspacos.Equals(new string(fraseSemEspacos.Reverse().ToArray()));
         }
 
-        if (frase == frase_inversa)
-        {                           
-            Console.Clear() ;
-            Console.Write($"\n>A frase é Palíndromo!\n" +
-                $">Frase original: {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(frase)}\n" +
-                $">Frase invertida: {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(frase_inversa)}\n");
-        }
-        else
+        private static void ExibirDados()
         {
+            string frase = RetornarFraseInput();
+
             Console.Clear();
-            Console.Write($"\n>A frase NÃO é Palíndromo!\n" +
-                $">Frase original: {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(frase)}\n" +
-                $">Frase invertida: {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(frase_inversa)}\n");
+            Console.WriteLine(FraseEhPalindromo(frase) ? $"Frase '{frase}' é palíndromo" : $"Frase '{frase}' não é palíndromo");
         }
-
     }
 }

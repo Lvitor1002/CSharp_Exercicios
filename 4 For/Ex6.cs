@@ -1,52 +1,56 @@
 ﻿
+
 /*
- Faça um programa que leia um número inteiro e diga se ele é ou não um número primo.
- */
+    Faça um programa que leia um número inteiro e diga se ele é ou não um número primo.
+*/
+
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
 
-        int numero;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        while (true) { 
-            
-
-            Console.Write(">Digite um número inteiro: ");
-            string n = Console.ReadLine();
-            if (int.TryParse(n, out numero) && numero > 0)
+        private static int RetornarNumeroInput()
+        {
+            int numero;
+            while (true)
             {
-                
+                Console.Write("Entre com um número: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out numero) || numero < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida.");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida. Espereva um 'número inteiro'\n");
-            }
+            return numero;
         }
-        string resultado = Primo(numero);
-        Console.Clear();
-        Console.Write($"\n{resultado}\n");
-    }
-
-    static string Primo(int numero)
-    {
-        if (numero < 2) return $">{numero} Não é primo!\n";
-
-        for (int i = 2; i <= Math.Sqrt(numero); i ++)
+        private static bool NumeroEhPrimo(int numero)
         {
-            if (numero % i == 0)
-            {
-                return $">{numero} Não é primo!\n";
-            }
+            if (numero < 2)
+                return false;
+
+            for (int i = 2; i <= Math.Sqrt(numero); i++)
+                if (numero % i == 0)
+                    return false;
+
+            return true;
         }
-        return $">{numero} é primo!\n";
+
+        private static void ExibirDados()
+        {
+            int numero = RetornarNumeroInput();
+
+            Console.Clear();
+            Console.WriteLine(NumeroEhPrimo(numero) ? $"Número {numero} é primo" : $"Número {numero} não é primo");
+        }
+
     }
 }
