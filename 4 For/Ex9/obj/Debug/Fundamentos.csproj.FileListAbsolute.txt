@@ -1,0 +1,8 @@
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\bin\Debug\Fundamentos.exe.config
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\bin\Debug\Fundamentos.exe
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\bin\Debug\Fundamentos.pdb
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\obj\Debug\Fundamentos.csproj.AssemblyReference.cache
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\obj\Debug\Fundamentos.csproj.CoreCompileInputs.cache
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\obj\Debug\Fundamentos.exe
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\obj\Debug\Fundamentos.pdb
+C:\Users\Luiz\Desktop\Repositórios Locais\PROJETOS\POO-CSHARP\Curso Microsoft\Fundamentos\obj\Debug\Fundamentos.exe.config

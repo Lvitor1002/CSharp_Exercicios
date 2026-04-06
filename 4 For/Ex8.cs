@@ -1,72 +1,56 @@
 ﻿
+
 /*
- Crie um programa que leia o ano de nascimento de sete pessoas. No final, 
+Crie um programa que leia o ano de nascimento de sete pessoas. No final, 
 mostre quantas pessoas ainda não atingiram a maioridade e quantas já são maiores.
- */
+*/
 
 
 using System;
-using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
 
-
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int ano;
-        int maior_idade = 0;
-        int menor_idade = 0;
-        int idade;
 
-        //Sempre da condição mais específica para a mais geral.
-        //A condição mais específica é aquela que cobre menos casos.
-        //A condição mais geral é aquela que cobre mais casos.
-        Console.Write("\n>Digite o ano de nascimento de 7 pessoas:\n\n");
-        for (int i = 0; i < 7; i += 1)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int[] RetornarArrayIdades()
         {
-            while (true)
-            {
-                
-                Console.Write($">{i+1}ª: ");
-                string a = Console.ReadLine();
-                
+            var idades = new int[7];
 
-                if (int.TryParse(a, out ano) && a.Length == 4 && ano > 0){
-                    idade = DateTime.Now.Year - ano;
-                    if (idade >= 18)
+            for(int i = 0; i < idades.Length; i++)
+            {
+                Console.Clear();
+                while (true)
+                {
+                    Console.Write($"Entre com o ano de nascimento da {i+1}ª Pessoa: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!int.TryParse(entrada, out int ano) || ano < 1900 || ano > DateTime.Today.Year)
                     {
-                        maior_idade += 1;
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida. Digite um ano válido entre 1900 e {DateTime.Today.Year}");
+                        continue;
                     }
-                    else
-                    {
-                        menor_idade += 1;
-                    }
+                    int idade = DateTime.Today.Year - ano;
+                    idades[i] += idade;
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.Write(">Entrada inválida. Esperava 4 números inteiros!\n");
-                }
             }
+            return idades;
         }
-        Console.Clear();
-        if (maior_idade <= 1)
+
+        private static void ExibirDados()
         {
-            Console.Write($"\n> {maior_idade} Pessoa é maior de idade!\n");
+            var idades = RetornarArrayIdades();
+
+            int quantidadeIdadesMaioresDezoito = idades.Where(idade => idade > 18).Count();
+            int quantidadeIdadesMenoresDezoito = idades.Where(idade => idade < 18).Count();
+
+            Console.Clear();
+            Console.WriteLine($"{quantidadeIdadesMenoresDezoito} Pessoas não atingiram a maioridade.\n{quantidadeIdadesMaioresDezoito} Pessoas são maiores de idade.\n");
         }
-        else if (maior_idade >= 2)   
-        {
-            Console.Write($"\n> {maior_idade} Pessoas são maiores de idade!\n");
-        }
-        if (menor_idade <= 1)
-        {
-            Console.Write($"\n> {menor_idade} Pessoa ainda não atingiu a maior idade!\n");
-        }
-        else if (menor_idade >= 2)
-        {
-            Console.Write($"\n> {menor_idade} Pessoas ainda não atingiram a maior idade!\n");
-        }
-        
     }
 }
