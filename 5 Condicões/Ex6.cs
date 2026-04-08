@@ -1,43 +1,45 @@
 ﻿
 
 /*
- Escreva um programa que pergunte o salário de um funcionário e calcule o valor do seu aumento. 
-Para salários superiores a R$1250,00, calcule um aumento de 10%. Para os inferiores ou iguais, o aumento é de 15%.
- */
+    Escreva um programa que pergunte o salário de um funcionário e calcule o valor do seu aumento. 
+    Para salários superiores a R$1250,00, calcule um aumento de 10%. Para os inferiores ou iguais, o aumento é de 15%.
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        double salario;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        while (true)
+        private static decimal RetornarSalario()
         {
-            Console.Write(">Digite o seu salário: R$");
-            string s = Console.ReadLine();
-            if (double.TryParse(s, out salario)) 
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida. Esperava um número 'Real ou inteiro'!\n");
+                Console.Write("Entre com o salário: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!decimal.TryParse(entrada, out decimal salario) || salario <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um número inteiro ou real maior que zero.");
+                    continue;
+                }
+                return salario;
             }
         }
-        if(salario > 1250)
+
+        private static string RetornarDadosSalarioReajustado(decimal salario)
+            => salario > 1250 ? $"Salário reajustado com 10% de aumento: {salario * 1.1m:C2}" 
+                            : $"Salário reajustado com 15% de aumento: {salario * 1.15m:C2}";
+
+        private static void ExibirDados()
         {
+            var salario = RetornarSalario();
+
             Console.Clear();
-            Console.WriteLine($">Parabéns! Você ganhou um aumento de 10% em seu Salário de R${salario:F2} reais!\n" +
-                $">Novo salário: {salario*1.10:F2} reais.\n");
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine($">Parabéns! Você ganhou um aumento de 15% em seu Salário de R${salario:F2} reais!\n" +
-                $">Novo salário: {salario*1.15:F2} reais.\n");
+            Console.WriteLine($"Salário original: {salario:C2}\n{RetornarDadosSalarioReajustado(salario)}\n");
         }
     }
 }

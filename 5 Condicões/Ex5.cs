@@ -1,80 +1,49 @@
 ﻿
 
 /*
- Faça um programa que leia três números e mostre qual é o maior e qual é o menor.
- */
+    Faça um programa que leia três números e mostre qual é o maior e qual é o menor.
+*/
 
 using System;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int[] numeros = leitura();
 
-        int maior = int.MinValue;/*Aqui inicializamos a variável maior com o menor valor possível de um inteiro. 
-        Isso garante que qualquer número lido será maior que maior na primeira comparação do laço, 
-        permitindo a lógica de encontrar o maior número.*/
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        int menor = int.MaxValue;/*Aqui inicializamos a variável menor com o maior valor possível de um inteiro. 
-         Isso garante que qualquer número lido será menor que menor na primeira comparação do laço, 
-        permitindo a lógica de encontrar o menor número.*/
-
-        foreach (var numero in numeros)
+        private static int[] RetornarArrayNumeros()
         {
-            if(numero > maior)
-            {
-                maior = numero;
-            }
-            if(numero < menor)
-            {
-                menor = numero;
-            }
-        }
+            var numeros = new int[3];
 
-        if (numeros[0] == numeros[1] && numeros[0] == numeros[2])
-        {
-            Console.Clear();
-            Console.Write(">Números iguais!\n");
-            foreach (var numero in numeros)
+            for (int i = 0; i < 3; i++)
             {
-                Console.Write($"{numero} | ");
-            }
-            Console.WriteLine();
-            
-        }
-        else
-        {
-            Console.Write($"\n>Maior valor:{maior}\n>Menor valor:{menor}\n");
-        }
-    }
-
-    static int[] leitura()
-    {
-        int[] numeros = new int[3];
-        int numero;
-
-        Console.Write("\n>Digite 3 valores:\n");
-        for (int i = 0; i < 3; i++)
-        {
-
-            while (true)
-            {
-                Console.Write($">{i + 1}ª: ");
-                string n = Console.ReadLine();
-                if (int.TryParse(n, out numero))
+                while (true)
                 {
-
+                    Console.Write($"Entre com o {i+1}ª número: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!int.TryParse(entrada, out int numero) || numero < 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida. ");
+                        continue;
+                    }
                     numeros[i] = numero;
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida! Esperava um número inteiro!");
-                }
             }
+            return numeros;
         }
-        return numeros;
+
+        private static void ExibirDados()
+        {
+            var numeros = RetornarArrayNumeros();
+
+            Console.Clear();
+            Console.WriteLine($"Números: {string.Join(", ", numeros)}.\nMaior número: {numeros.Max()}\nMenor número: {numeros.Min()}");
+        }
     }
 }

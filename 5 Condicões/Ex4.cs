@@ -1,40 +1,45 @@
 ﻿
 
 /*
- Faça um programa que leia um ano qualquer e mostre se ele é bissexto.
- */
+    Faça um programa que leia um ano qualquer e mostre se ele é bissexto.
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int ano;
-       while (true)
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarAno()
         {
-            Console.Write(">Digite um ano: ");
-            string a = Console.ReadLine();
-            if (int.TryParse(a, out ano) && a.Length == 4)
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Esperava um ano 'inteiro' de 4 digitos!\n");
+                Console.Write($"Entre com um ano para saber se ele é bissexto: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out int ano) || ano <= 1900 || ano > DateTime.Now.Year)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um valor inteiro e menor ou igual há {DateTime.Now.Year}.");
+                    continue;
+                }
+                return ano;
             }
         }
 
-       if ((ano % 4 == 0 && ano % 100 != 0) || ano % 400 == 0)
+        private static bool AnoEhBissexto(int ano)
+            => (ano % 4 == 0 && ano % 100 != 0) || ano % 400 == 0 ? true : false;
+
+
+        private static void ExibirDados()
         {
+            int ano = RetornarAno();
+
             Console.Clear();
-            Console.WriteLine($"\n>O ano {ano} é bissexto.\n");
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine($"\n>O ano {ano} não é bissexto.\n");
+            Console.WriteLine(AnoEhBissexto(ano) ? $"Ano {ano} é bissexto\n" : $"Ano {ano} não é bissexto\n");
         }
     }
 }
