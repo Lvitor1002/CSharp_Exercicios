@@ -28,6 +28,7 @@ O código deverá produzir o seguinte resultado de 1 a 100:
 .
 .
 .
+.
 Até 100 - Buzz
  */
 using System;
@@ -55,6 +56,7 @@ namespace Etapa1
                     Console.WriteLine($"{i} - Buzz");
                 else 
                     Console.WriteLine(i);
+
 
             }
         }

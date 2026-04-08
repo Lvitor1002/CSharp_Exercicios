@@ -1,49 +1,51 @@
 ﻿
-
 /*
- Escreva um programa que leia a velocidade de um carro. 
-Se ele ultrapassar 80Km/h, mostre uma mensagem dizendo que ele foi multado. 
-A multa vai custar R$7,00 por cada Km acima do limite.
- */
+    Escreva um programa que leia a velocidade de um carro. 
+    Se ele ultrapassar 80Km/h, mostre uma mensagem dizendo que ele foi multado. 
+    A multa vai custar R$7,00 por cada Km acima do limite.
+*/
+
+
 using System;
-using System.Globalization;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => AplicarMulta();
 
-        private static int Leitura()
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarVelocidadeCarro()
         {
-            int velocidadeAtual = 0;
             while (true)
             {
-                Console.Write("Radar a frente... Qual sua valocidade atual? ");
+                Console.Write($"Digite a velocidade do carro: ");
                 string entrada = Console.ReadLine().Trim();
-                if(!int.TryParse(entrada, out velocidadeAtual) || velocidadeAtual < 0){
+                if (!int.TryParse(entrada, out int velocidadeCarro) || velocidadeCarro <= 0)
+                {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Entre com um número 'inteiro' maior que 0");
+                    Console.WriteLine($"Entrada inválida. Entre com um valor inteiro e maior que zero.");
                     continue;
                 }
-                break;
+                return velocidadeCarro;
             }
-            return velocidadeAtual;
         }
 
-        private static void AplicarMulta()
-        {
-            Console.Clear();
-            var velocidadeAtual = Leitura();
-            double multa = 7 * (velocidadeAtual - 80);
+        private static double RetornarValorMulta(int velocidadeCarro)
+            => velocidadeCarro > 80 ? (velocidadeCarro - 80) * 7.0 : 0.0;
 
-            if (velocidadeAtual < 80)
-            {
-                Console.WriteLine($"Velocidade atual: {velocidadeAtual}KM/h\nSiga viagem..\n");
-                return;
-            }
-            Console.WriteLine($"Velocidade atual: {velocidadeAtual}KM/h\nMultado em {multa.ToString("C", new CultureInfo("pt-BR"))}\n");
+
+        private static void ExibirDados()
+        {
+            int velocidadeCarro = RetornarVelocidadeCarro();
+            double valorMulta = RetornarValorMulta(velocidadeCarro);
+
+            Console.Clear();
+            Console.WriteLine(valorMulta > 0 
+                ? $"O carro estava a {velocidadeCarro}Km/h, ultrapassando o limite de 80Km/h.\nValor da multa: {valorMulta:C2}" 
+                : $"O carro estava a {velocidadeCarro}Km/h, dentro do limite permitido. Sem multa.");
+
         }
     }
 }
-

@@ -1,42 +1,46 @@
 ﻿
 
 /*
- Desenvolva um programa que pergunte a distância de uma viagem em Km. 
-Calcule o preço da passagem, cobrando R$0,50 por Km para viagens de até 200Km e R$0,45 parta viagens mais longas.
- */
+    Desenvolva um programa que pergunte a distância de uma viagem em Km. 
+    Calcule o preço da passagem, cobrando R$0,50 por Km para viagens de até 200Km e R$0,45 parta viagens mais longas.
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int distancia;
-        while (true)
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarDistanciaViagem()
         {
-            Console.Write("\n>Informe a distância da viagem em KM: ");
-            string d = Console.ReadLine();
-            if (int.TryParse(d, out distancia))
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida! Esperava um número 'inteiro'\n");
+                Console.Write($"Digite a distância de sua viagem em KM: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out int distancia) || distancia <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um valor inteiro e maior que zero.");
+                    continue;
+                }
+                return distancia;
             }
         }
 
-        if (distancia > 200)
-        {
-            Console.Clear();
-            Console.Write($"\n>{distancia}KM Percorridos!\n>Preco da passagem: R${distancia * 0.45} reais\n\n");
-        }
-        else
-        {
-            Console.Clear();
-            Console.Write($"\n>{distancia}KM Percorridos!\n>Preco da passagem: R${distancia * 0.50} reais\n\n");
-        }
+        private static double RetornarPrecoPassagem(int distancia)
+            => distancia <= 200 ? distancia * 0.50 : distancia * 0.45;
 
+
+        private static void ExibirDados()
+        {
+            int distanciaViagem = RetornarDistanciaViagem();
+
+            Console.Clear();
+            Console.WriteLine($"Preço cobrado pela viagem de {distanciaViagem}KM rodados: {RetornarPrecoPassagem(distanciaViagem):C2}\n");
+        }
     }
 }

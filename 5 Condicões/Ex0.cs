@@ -1,49 +1,51 @@
 ﻿
-
 /*
- Escreva um programa que faça o computador "pensar" em um número inteiro entre 0 e 5
-e peça para o usuário tentar descobrir qual foi o número escolhido pelo computador. 
-O programa deverá escrever na tela se o usuário venceu ou perdeu.
- */
+    Escreva um programa que faça o computador "pensar" em um número inteiro entre 0 e 5
+    e peça para o usuário tentar descobrir qual foi o número escolhido pelo computador. 
+    O programa deverá escrever na tela se o usuário venceu ou perdeu.
+*/
+
+
 using System;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public class Program
     {
-        static void Main() => LeituraUsuario();
+        private static Random _computadorPensando = new Random();
 
-        public static int PensarNumero()
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarNumeroDeTentativaUsuario()
         {
-            Random pensar = new Random();
-            return pensar.Next(0, 6); ;
-        }
-        
-        public static void LeituraUsuario()
-        {
-            var numeroPensado = PensarNumero();
             while (true)
             {
-                Console.Write($"Digite o número de 0 à 5 pensado pelo comptador: ");
-                string numeroP = Console.ReadLine().Trim();
-                if(!int.TryParse(numeroP, out int numeroEscolhido) || numeroEscolhido < 0 || numeroEscolhido > 5)
+                Console.Write($"Tente adivinhar digitando qual número o computador pensou: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out int escolhaUsuario))
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Digite um número 'inteiro' de 0 à 5.");
+                    Console.WriteLine($"Entrada inválida.");
                     continue;
                 }
-                
-                if(numeroEscolhido != numeroPensado)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Errou. Tente novamente.");
-                    continue;
-                }
-                Console.Clear();
-                Console.Write($"\n>Parabéns, você acertou!\n>Sua escolha: {numeroEscolhido}\n>Número sorteado: {numeroPensado}\n");
-                break;
+                return escolhaUsuario;
             }
+        }
+
+       
+
+        private static void ExibirDados()
+        {
+            int numeroPensadoComputador = _computadorPensando.Next(0, 6);
+            var numeroEscolhaUsuario = RetornarNumeroDeTentativaUsuario();
+
+            Console.Clear();
+
+            if (numeroEscolhaUsuario == numeroPensadoComputador)
+                Console.WriteLine($"Parabéns! Você acertou o número que o computador pensou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}");
+            else
+                Console.WriteLine($"Que pena! Você errou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}");
         }
     }
 }
-
