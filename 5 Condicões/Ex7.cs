@@ -1,59 +1,52 @@
 ﻿
 
 /*
-Desenvolva um programa que leia o comprimento de três retas e diga ao usuário se elas podem ou não formar um triângulo.
+    Desenvolva um programa que leia o comprimento de três retas e diga ao usuário se elas podem ou não formar um triângulo.
 */
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int[] retas = dados();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Write($"\nRetas digitadas:\n");
-        foreach (var reta in retas)
+        private static double[] RetornarRetasTriangulo()
         {
-            Console.Write($"{reta} | ");
-        }
-        
-        if ((retas[0] + retas[1] > retas[2]) && (retas[1] + retas[2] > retas[0]) && (retas[0] + retas[2] > retas[1]))
-        {
-            Console.Clear();
-            Console.Write("\n>É um triângulo!\n");
-        }
-        else
-        {
-            Console.Clear();
-            Console.Write("\n>Não é um triângulo!\n");
-        }
-    }
+            var retas = new double[3];
 
-    static int[] dados()
-    {
-        int[] retas = new int[3];
-        int reta;
-
-        Console.Write("\n>Digite 3 reats:\n");
-        for (int i = 0; i < 3; i++)
-        {
-            while (true)
+            for(int i = 0; i < retas.Length; i++)
             {
-                Console.Write($">{i + 1}ª: ");
-                string r = Console.ReadLine();
-                if (int.TryParse(r, out reta) && reta > 0)
+                while (true)
                 {
+                    Console.Write($"Entre com o comprimento da {i+1}ª reta: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!double.TryParse(entrada, out double reta) || reta <= 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida. Entre com um número inteiro ou real maior que zero.");
+                        continue;
+                    }
                     retas[i] = reta;
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida! Esperava um número inteiro positivo.");
-                }
             }
+            return retas;
         }
-        return retas;
+
+        private static bool VerificarEhTriangulo(double[] retas)
+            => retas[0] + retas[1] > retas[2] && retas[1] + retas[2] > retas[0] && retas[0] + retas[2] > retas[1];
+
+        private static void ExibirDados()
+        {
+            var retas = RetornarRetasTriangulo();
+
+            Console.Clear();
+            Console.WriteLine(VerificarEhTriangulo(retas) 
+                ? $"As retas {string.Join(", ",retas)}. Formam um triângulo.\n" 
+                : $"As retas {string.Join(", ", retas)}. Não formam um triângulo.\n");
+        }
     }
 }

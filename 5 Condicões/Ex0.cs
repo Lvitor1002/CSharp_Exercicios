@@ -42,10 +42,9 @@ namespace Fundamentos
 
             Console.Clear();
 
-            if (numeroEscolhaUsuario == numeroPensadoComputador)
-                Console.WriteLine($"Parabéns! Você acertou o número que o computador pensou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}");
-            else
-                Console.WriteLine($"Que pena! Você errou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}");
+            Console.WriteLine(numeroEscolhaUsuario == numeroPensadoComputador 
+                    ? $"Parabéns! Você acertou o número que o computador pensou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}"
+                    : $"Que pena! Você errou.\nSeu número: {numeroEscolhaUsuario}\nNúmero do Computador: {numeroPensadoComputador}");
         }
     }
 }
