@@ -6,66 +6,48 @@ mostrando na tela uma mensagem:
 - O primeiro valor é maior
 - O segundo valor é maior
 - Não existe valor maior, os dois são iguais
- */
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-
-    static void Main()
+    public class Program
     {
-        int primeiro_valor;
-        int segundo_valor;
 
-        Console.Write("\n>Digite 2 valores para comparação:\n");
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        while (true)
+        private static int[] RetornarArrayNumeros()
         {
-            Console.Write(">1ª: ");
-            string p = Console.ReadLine();
-            if (int.TryParse(p, out primeiro_valor))
-            {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida! Esperava um número 'inteiro'\n");
-            }
+            var numeros = new int[2];
 
-        }
-
-        while (true)
-        {
-            Console.Write(">2ª: ");
-            string s = Console.ReadLine();
-            if (int.TryParse(s, out segundo_valor))
+            for(int i = 0; i < numeros.Length; i++)
             {
-                break;
+                while (true)
+                {
+                    Console.Write($"Entre com o {i + 1}ª número inteiro: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!int.TryParse(entrada, out int numero) || numero < 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida.");
+                        continue;
+                    }
+                    numeros[i] = numero;
+                    break;
+                }
             }
-
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida! Esperava um número 'inteiro'\n");
-            }
-        }
-        
-        if (primeiro_valor > segundo_valor)
-        {
             Console.Clear();
-            Console.Write($"\n>Primeiro valor é maior!\n\n>Primeiro: {primeiro_valor}\n>Segundo: {segundo_valor}\n");
+            return numeros;
         }
-        else if(primeiro_valor == segundo_valor)
-        {
-            Console.Clear();
-            Console.Write($"\n>Valores iguais!\n\n>Primeiro: {primeiro_valor}\n>Segundo: {segundo_valor}\n");
-        }
-        else
-        {
-            Console.Clear();
-            Console.Write($"\n>Segundo valor é maior!\n\n>Primeiro: {primeiro_valor}\n>Segundo: {segundo_valor}\n");
-        }
+
+        private static string RetornarStringStatusDeComparacaoNumeros(int[] numeros)
+            => numeros[0] > numeros[1] ? $"O primerio valor {numeros[0]} é maior do que o segundo valor {numeros[1]}." : 
+                numeros[0] < numeros[1] ? $"O segundo valor {numeros[1]} é maior do que o primeiro valor {numeros[0]}." :
+                $"Não existe valor maior, os dois são iguais; {numeros[0]} e {numeros[1]}.";
+
+        private static void ExibirDados()
+            => Console.WriteLine(RetornarStringStatusDeComparacaoNumeros(RetornarArrayNumeros()));
     }
 }

@@ -1,65 +1,61 @@
 ﻿
 
 /*
-Escreva um programa em c# que leia um número inteiro qualquer e peça para o usuário escolher qual será a base de conversão: 
-1 para binário, 2 para octal e 3 para hexadecimal.
- */
+    Escreva um programa em c# que leia um número inteiro qualquer e peça para o usuário escolher qual será a base de conversão: 
+    1 para binário, 2 para octal e 3 para hexadecimal.
+*/
 
 using System;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-
-    static string Conversao(int valor)
+    public class Program
     {
-        int escolha;
-        while (true)
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarNumeroInput()
         {
-            Console.Write("\n>Escolha uma das opções a seguir:\n[1] - Binário\n[2] - Octal\n[3] - Hexadecimal\n");
-            string esc = Console.ReadLine();
-            if (int.TryParse(esc, out escolha) && escolha >= 1 && escolha <= 3)
+            int numero;
+
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida. Esperava um número 'inteiro' de 1 à 3!\n");
+                Console.Write($"Entre com um número inteiro: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out numero) || numero < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida.");
+                    continue;
+                }
+                return numero;
             }
         }
 
-        Console.Clear() ;
-        switch (escolha)
+        private static string RetornarStringDeNumeroConvertidoBaseDesejada(int numero)
         {
-            case 1:
-                return $"\n> Valor {valor} em [Binário]: {Convert.ToString(valor, 2)} \n";
-            case 2:
-                return $"\n> Valor {valor} em [Octal]: {Convert.ToString(valor, 8)}\n";
-            case 3:
-                return $"\n> Valor {valor} em [Hexadecimal]: {Convert.ToString(valor, 16)}\n";
-            default:
-                return "\n> Opção inválida."; // Isso nunca será alcançado, mas é uma boa prática.
-        }
-    }
+            string entrada;
+            var opcoesValidas = new[] { "binario", "octal", "hexadecimal" };
 
-    static void Main()
-    {
-        int valor;
-        while (true)
-        {
-            
-            Console.Write("\n>Digite um valor: ");
-            string v = Console.ReadLine();
-            if (int.TryParse(v, out valor) && valor > 0)
+            while (true)
             {
-                break;
-            }
-            else
-            {
+                Console.Write($"Escolha uma base de conversão: Binario | Octal | Hexadecimal - ");
+                entrada = Console.ReadLine().Trim().ToLower();
+                if(string.IsNullOrWhiteSpace(entrada) || entrada.Any(c => char.IsDigit(c)) || !opcoesValidas.Contains(entrada))
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com uma das opções: Binario | Octal | Hexadecimal");
+                    continue;
+                }
                 Console.Clear();
-                Console.WriteLine(">Entrada inválida. Esperava um número 'inteiro'\n");
+                return entrada == "binario" ? $"Número {numero} foi convertido para binário: {Convert.ToString(numero, 2)}" :
+                    entrada == "octal" ? $"Número {numero} foi convertido para Octal: {Convert.ToString(numero, 8)}" : 
+                    $"Número {numero} foi convertido para Hexadecimal: {Convert.ToString(numero, 16).ToUpper()}";
             }
         }
-        Console.Write(Conversao(valor));
+        private static void ExibirDados()
+            => Console.WriteLine(RetornarStringDeNumeroConvertidoBaseDesejada(RetornarNumeroInput()));
     }
 }
