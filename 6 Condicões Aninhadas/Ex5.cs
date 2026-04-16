@@ -3,66 +3,50 @@
 /*
 A Confederação Nacional de Natação precisa de um programa que leia o ano de nascimento de um atleta e mostre sua categoria, 
 de acordo com a idade:
-- Até 9 anos: MIRIM
-- Até 14 anos: INFANTIL
-- Até 19 anos: JÚNIOR
-- Até 25 anos: SÊNIOR
-- Acima de 25 anos: MASTER
- */
+                    - Até 9 anos: MIRIM
+                    - Até 14 anos: INFANTIL
+                    - Até 19 anos: JÚNIOR
+                    - Até 25 anos: SÊNIOR
+                    - Acima de 25 anos: MASTER
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int idade = Dados();
-        
-        Console.Clear();
-        Console.Write($"\n-=-=-=-=-=-= Categoria de {idade} anos -=-=-=-=-=-=\n");
-        if (idade <= 9)
-        {
-            Console.WriteLine($"\n>Categoria: [MIRIM]\n");
-        }
-        else if(idade <= 14)
-        {
-            Console.WriteLine($"\n>Categoria: [INFANTIL]\n");
-        }
-        else if (idade <= 19)
-        {
-            Console.WriteLine($"\n>Categoria: [JÚNIOR]\n");
-        }
-        else if (idade <= 25)
-        {
-            Console.WriteLine($"\n>Categoria: [SÊNIOR]\n");
-        }
-        else
-        {
-            Console.WriteLine($"\n>Categoria: [MASTER]\n");
-        }
-    }
 
-    static int Dados()
-    {
-        int ano;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        
-        while (true)
+        private static int RetornarIdade()
         {
-            Console.Write(">Digite o seu ano de nascimento: ");
-            string a = Console.ReadLine();
-            if (int.TryParse(a, out ano) && a.Length == 4 && ano <= DateTime.Now.Year && ano >= 1900)
+            int anoNascimento;
+            while (true)
             {
+                Console.Write($"Entre com o ano de seu nascimento: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out anoNascimento) || anoNascimento < 1900 || anoNascimento > DateTime.Now.Year)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um ano maior que 1900 e menor que {DateTime.Now.Year}");
+                    continue;
+                }
                 break;
             }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida! Digite um número inteiro de 4 dígitos entre 1900 e o ano atual.\n");
-            }
+            Console.Clear();
+            return DateTime.Now.Year - anoNascimento;
         }
-        int idade = DateTime.Now.Year - ano;
-        
-        return idade;
+
+        private static string RetornarCategoriaBaseadaIdade(int idade)
+            => idade <= 9 ? $"{idade} anos: 'MIRIM'."
+            : idade <= 14 ? $"{idade} anos: 'INFANTIL'."
+            : idade <= 19 ? $"{idade} anos: 'JÚNIOR'."
+            : idade <= 25 ? $"{idade} anos: 'SÊNIOR'."
+            : $"{idade} anos: 'MASTER'.";
+
+        private static void ExibirDados()
+            => Console.WriteLine(RetornarCategoriaBaseadaIdade(RetornarIdade()));
     }
 }

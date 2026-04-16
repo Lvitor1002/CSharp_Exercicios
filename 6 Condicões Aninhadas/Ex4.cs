@@ -1,71 +1,58 @@
 ﻿
 
+
 /*
-Crie um programa que leia duas notas de um aluno e calcule sua média, 
-mostrando uma mensagem no final, de acordo com a média atingida:
-- Média abaixo de 5.0: REPROVADO
-- Média entre 5.0 e 6.9: RECUPERAÇÃO
-- Média 7.0 ou superior: APROVADO
- */
+    Crie um programa que leia duas notas de um aluno e calcule sua média, 
+    mostrando uma mensagem no final, de acordo com a média atingida:
+    - Média abaixo de 5.0: REPROVADO
+    - Média entre 5.0 e 6.9: RECUPERAÇÃO
+    - Média 7.0 ou superior: APROVADO
+*/
 
 using System;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (n1, n2, media) = dados();
-        
-        Console.Clear();
-        Console.Write($"\n>Notas: {n1} & {n2}\n");
-        if (media < 5)
-        {
-            Console.WriteLine($"\n>Média: {media:F0}\n>Você está Reprovado!\n");
-        }
-        else if(media >= 7)
-        {
-            Console.WriteLine($"\n>Média: {media:F0}\n>Você está Aprovado!\n");
-        }
-        else
-        {
-            Console.WriteLine($"\n>Média: {media:F0}\n>Você está de Recuperação!\n");
-        }
-    }
 
-    static (double n1, double n2, double media) dados()
-    {
-        double n1, n2, media;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Write("\n>Digite abaixo 2 notas:\n");
-        while (true)
+        private static double[] RetornarArrayNotasAlunos()
         {
-            Console.Write("\n>1ª: ");
-            string nota1 = Console.ReadLine();
-            if (double.TryParse(nota1, out n1))
+            var notas = new double[2];
+
+            for(int i = 0; i< notas.Length; i++)
             {
-                break;
+                while (true)
+                {
+                    Console.Write($"Entre com a {i+1}ª nota do aluno entre 0 à 10: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!double.TryParse(entrada, out double nota) || nota < 0 || nota > 10)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida. Digite uma nota entre 0 e 10.");
+                        continue;
+                    }
+                    notas[i] = nota;
+                    break;
+                }
             }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Esperava um número 'Inteiro ou Real'\n");
-            }
+            Console.Clear();
+            return notas;
         }
-        while (true)
-        {
-            Console.Write(">2ª: ");
-            string nota2 = Console.ReadLine();
-            if (double.TryParse (nota2, out n2))
-            {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Esperava um número 'Inteiro ou Real'\n");
-            }
-        }
-        media = (n1 + n2)/2;
-        return (n1, n2, media);
+
+        private static double RetornarMediaNotasAlunos(double[] notas)
+            => notas.Average();
+
+        private static string RetornarResultadoBoletimAluno(double media)
+            => media >= 5 && media <= 6.9 ? $"Media {media}. Aluno em recuperação.\n" 
+                : media >= 7 ? $"Media {media}. Aluno em Aprovado.\n" 
+                : $"Media {media}. Aluno reprovado.\n";
+
+        private static void ExibirDados()
+            => Console.WriteLine(RetornarResultadoBoletimAluno(RetornarMediaNotasAlunos(RetornarArrayNotasAlunos())));
     }
 }

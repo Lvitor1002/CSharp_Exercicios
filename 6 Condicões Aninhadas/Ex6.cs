@@ -3,64 +3,52 @@
 /*
 Desenvolva um programa que leia o comprimento de três retas e diga ao usuário se elas podem ou não formar um triângulo.
 Mostre que tipo de triângulo será formado:
-- EQUILÁTERO: todos os lados iguais
-- ISÓSCELES: dois lados iguais, um diferente
-- ESCALENO: todos os lados diferentes
- */
+                                        - EQUILÁTERO: todos os lados iguais
+                                        - ISÓSCELES: dois lados iguais, um diferente
+                                        - ESCALENO: todos os lados diferentes
+*/
 
 using System;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int reta;
-        int[] retas = new int[3];
 
-        Console.Write("\n>Digite 3 retas para um triângulo;\n");
-        for (int i = 0; i < 3; i++)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int[] RetornarArrayRetasTriangulo()
         {
-            while (true)
+            var retas = new int[3];
+            for(int i = 0; i < retas.Length; i++)
             {
-                Console.Write($"{i + 1}ª: ");
-                string r = Console.ReadLine();
-                if (int.TryParse(r, out reta))
+                while (true)
                 {
+                    Console.Write($"Entre com a {i+1}ª reta: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if (!int.TryParse(entrada, out int reta) || reta < 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Entrada inválida. Entre com um valor inteiro e maior que 0.");
+                        continue;
+                    }
                     retas[i] = reta;
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("\n>Entrada inválida! Esperava um número 'inteiro'\n");
-                }
             }
-        }
-        if ((retas[0] + retas[1] > retas[2]) && (retas[1] + retas[2] > retas[0]) && retas[2] + retas[0] > retas[1])
-        {
             Console.Clear();
-            Console.WriteLine(">Triângulo formado!\n");
+            return retas;
+        }
 
-            if (retas[0] == retas[1] && retas[1] == retas[2])
-            {
-                Console.Clear();
-                Console.WriteLine(">Triângulo Equilátero - Todos os lados iguais!\n");
-            }else if (retas[0] != retas[1] && retas[1] != retas[2])
-            {
-                Console.Clear();
-                Console.WriteLine(">Triângulo Escaleno - Todos os lados diferentes!\n");
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Triângulo Isósceles - Dois lados iguais e um diferente!\n");
-            }
-        }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine(">Não foi possível formar um Triângulo!\n");
-        }
-        
+        private static string RetornarTipoTrianguloFormado(int[] retas)
+            => retas[0] + retas[1] <= retas[2] || retas[0] + retas[2] <= retas[1] || retas[1] + retas[2] <= retas[0] ? "Essas retas não formam um triângulo.\n" 
+                : retas[0] == retas[1] && retas[1] == retas[2] ? "Triângulo EQUILÁTERO\n"
+                : retas[0] == retas[1] || retas[0] == retas[2] || retas[1] == retas[2] ? "Triângulo ISÓSCELES\n"
+                : "Triângulo ESCALENO\n";
+
+
+        private static void ExibirDados()
+            => Console.WriteLine(RetornarTipoTrianguloFormado(RetornarArrayRetasTriangulo()));
     }
 }
