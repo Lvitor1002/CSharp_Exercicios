@@ -1,94 +1,74 @@
 ﻿
 
 /*
-Desenvolva uma lógica que leia o peso e a altura de uma pessoa, 
-calcule seu Índice de Massa Corporal (IMC) e mostre seu status, de acordo com a tabela abaixo:
-- IMC abaixo de 18,5: Abaixo do Peso
-- Entre 18,5 e 25: Peso Ideal
-- 25 até 30: Sobrepeso
-- 30 até 40: Obesidade
-- Acima de 40: Obesidade Mórbida
+Desenvolva uma lógica que leia o: 
+                                altura e 
+                                altura 
+de uma pessoa, calcule seu Índice de Massa Corporal (IMC) e mostre seu status, de acordo com a tabela abaixo:
+                                                                        - IMC abaixo de 18,5: Abaixo do Peso
+                                                                        - Entre 18,5 e 25: Peso Ideal
+                                                                        - 25 até 30: Sobrepeso
+                                                                        - 30 até 40: Obesidade
+                                                                        - Acima de 40: Obesidade Mórbida
 
-fórmula: IMC = peso / (altura x altura)
- */
+Fórmula: IMC = peso / (altura x altura)
+*/
 
 using System;
+using System.Globalization;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (peso, altura) = Dados();
-        double imc = Calculo_imc(peso, altura);
 
-        Console.Clear();
-        Console.WriteLine("-=-=-=-=-= índice de massa corporal -=-=-=-=-=");
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        if (imc < 18.5) {
-            
-            Console.Write($">Peso: {peso}kg.\n>Abaixo do peso!\n");
-        }
-        else if (imc >= 18.5 && imc <= 25)
+        private static double RetornarPeso()
         {
-            
-            Console.Write($">Peso: {peso}kg.\n>Peso normal!\n");
-        }
-        else if (imc > 25 && imc <= 30)
-        {
-            
-            Console.Write($">Peso: {peso}kg.\n>Sobrepeso!\n");
-        }
-        else if (imc > 30 && imc <= 40)
-        {
-            
-            Console.Write($">Peso: {peso}kg.\n>Obesidade!\n");
-        }
-        else
-        {
-            
-            Console.Write($">Peso: {peso}kg.\n>Obesidade mórbida!\n");
-        }
-    }
-
-    static (double peso, double altura) Dados()
-    {
-        double peso;
-        double altura;
-        while (true)
-        {
-            Console.Write("\n>Digite o seu peso: ");
-            string pe = Console.ReadLine();
-            if (double.TryParse(pe, out peso) && peso > 0)
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Esperava um número 'inteiro ou real'\n");
+                Console.Write($"Entre com o peso: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, out double peso) || peso < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um valor inteiro ou real e maior que zero.");
+                    continue;
+                }
+                return peso;
             }
         }
-        while (true)
+        private static double RetornarAltura()
         {
-            Console.Write("\n>Digite a sua altura em metros: ");
-            string al = Console.ReadLine();
-            if (double.TryParse(al, out altura) && altura > 0)
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida! Esperava um número 'inteiro ou real'\n");
+                Console.Write($"Entre com a altura: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!double.TryParse(entrada, NumberStyles.Any, CultureInfo.InvariantCulture, out double altura) || altura < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Entrada inválida. Entre com um valor inteiro ou real e maior que zero.");
+                    continue;
+                }
+                return altura;
             }
         }
 
-        return (peso, altura);
-    }
+        private static double RetornarIMC(double peso, double altura)
+            => peso / Math.Pow(altura, 2);
 
-    static double Calculo_imc(double peso, double altura)
-    {
-        //fórmula: IMC = peso / (altura x altura)
-        return peso / (altura * altura);
+        private static void ExibirDados()
+        {
+            double imc = RetornarIMC(RetornarPeso(), RetornarAltura());
+
+            Console.Clear();
+            Console.WriteLine(imc < 18.5 ? $"IMC de {imc:F2}: Abaixo do Peso.\n" 
+                            : imc >= 18.5 && imc < 25 ? $"IMC de {imc:F2}: Peso Ideal.\n"
+                            : imc >= 25 && imc < 30 ? $"IMC de {imc:F2}: Sobrepeso.\n"
+                            : imc >= 30 && imc < 40 ? $"IMC de {imc:F2}: Obesidade.\n"
+                            : $"IMC de {imc:F2}: Obesidade Mórbida.\n");
+        }
     }
 }
