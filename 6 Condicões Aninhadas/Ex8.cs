@@ -2,170 +2,119 @@
 
 /*
 Elabore um programa que calcule o valor a ser pago por um produto, considerando o seu preço normal e condição de pagamento:
-- à vista dinheiro/cheque: 10% de desconto
-- à vista no cartão: 5% de desconto
-- em até 2x no cartão: preço formal
-- 3x ou mais no cartão: 20% de juros
- */
+                                                                                - à vista dinheiro/cheque: 10% de desconto
+                                                                                - à vista no cartão: 5% de desconto
+                                                                                - em até 2x no cartão: preço formal
+                                                                                - 3x ou mais no cartão: 20% de juros
+                                                                                */
 
 using System;
-using System.Globalization;
 using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (nome, valor) = Dados();
-        int op;
-        Console.Clear();
-        Console.Write("\n-=-=-=-=-=-= Formas de pagamento -=-=-=-=-=-=\n");
-        
-        while (true)
-        {
-            Console.Write(">Escolha uma das opções abaixo: ");
-            Console.Write("\n[1] - à vista dinheiro/cheque: 10% de desconto\n" +
-                "[2] - à vista no cartão: 5% de desconto\n" +
-                "[3] - em até 2x no cartão: preço formal\n" +
-                "[4] - 3x ou mais no cartão: 20% de juros\n");
 
-            string OP = Console.ReadLine();
-            if (int.TryParse(OP, out op) && op >= 1 && op <= 4)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static double RetornarValorProduto()
+        {
+            while (true)
             {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida. Esperava um número 'inteiro ou real'\n");
+                Console.Write("Digite o valor do produto: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!double.TryParse(entrada, out double valorProduto) || valorProduto < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    continue;
+                }
+                return valorProduto;
             }
         }
-        Console.Clear();
-        switch (op)
+
+        private static int RetornarQuantidadeParcelas()
         {
-            case 1:
-                Console.WriteLine($">Valor de R${valor:F2} reais do produto '{nome}' com 10% de desconto: R${valor*0.90:F2} reais\n");
-                break;
-            case 2:
-                Console.WriteLine($">Valor de R${valor:F2} reais do produto '{nome}' com 5% de desconto: R${valor * 0.95:F2} reais\n");
-                break;
+            while (true)
+            {
+                var opcoesEntradas = new string[] { "s", "n" };
 
-            case 3:
-                int parcela2;
-                while (true)
-                {
-                    Console.Write("\n>Parcelamento até 2x sem juros. [3x ou mais no cartão: 20% de juros]\n" +
-                    "Digite a quantidade de vezes que deseja parcelar: ");
-                    string parc = Console.ReadLine();
-                    if (int.TryParse(parc, out parcela2) && parcela2 >= 1 && parcela2 <= 10)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.Write(">Entrada inválida. Esperava um número 'inteiro ou real'\n");
-                    }
-
-                }
-                if (parcela2 < 3)
+                Console.Write("Deseja realizar o parcelamento? [S/N] ");
+                string entrada = Console.ReadLine().Trim().ToLower();
+                if (string.IsNullOrEmpty(entrada) || !opcoesEntradas.Contains(entrada))
                 {
                     Console.Clear();
-                    Console.WriteLine($">Valor da parcela em {parcela2}x vezes do produto '{nome}' sem juros: R${(valor / parcela2):F2} reais\n");
+                    Console.WriteLine("Valor inválido. Tente novamente digitando apenas 's' ou 'n'.");
+                    continue;
                 }
-                else
+                if(entrada == "n")
+                    return 0;
+                break;
+            }
+            while (true)
+            {
+                Console.Write("Digite a quantidade de parcelas, de 3 à 10: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out int quantidadeParcelas) || quantidadeParcelas < 3 || quantidadeParcelas > 10)
                 {
                     Console.Clear();
-                    Console.WriteLine($">Valor original:{valor:F2}\n>Valor da parcela em {parcela2}x vezes do produto '{nome}' com 20% de juros: R${(valor * 1.20) / parcela2:F2} reais\n>Valor final: {valor * 1.20:F2} reais.\n");
+                    Console.WriteLine("Valor inválido. Tente novamente.");
+                    continue;
                 }
-
-                break;
-            case 4:
-                int parcela;
-                while (true)
-                {
-                    Console.Write("\n>Parcelamento até 10x. [3x ou mais no cartão: 20% de juros]\n" +
-                    "Digite a quantidade de vezes que deseja parcelar: ");
-                    string parc = Console.ReadLine();
-                    if (int.TryParse(parc, out parcela) && parcela >= 1 && parcela <= 10)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.Write(">Entrada inválida. Esperava um número 'inteiro ou real'\n");
-                    }
-                     
-                }
-                if (parcela < 3)
-                {
-                    Console.Clear();
-                    Console.WriteLine($">Valor da parcela em {parcela}x vezes do produto '{nome}' sem juros: R${(valor / parcela):F2} reais\n");
-                }
-                else 
-                {
-                    Console.Clear();
-                    Console.WriteLine($">Valor original:{valor:F2}\n>Valor da parcela em {parcela}x vezes do produto '{nome}' com 20% de juros: R${(valor * 1.20) / parcela:F2} reais\n>Valor final: {valor * 1.20:F2} reais.\n");
-                }
-                
-                break;
-
-            default:
-                Console.Clear();
-                break;
-
+                return quantidadeParcelas;
+            }
         }
 
-    }
-    
-    static (string nome, double valor) Dados()
-    {
-        string nome;
-        double valor;
-        while (true)
+        private static void MenuCondicaoPagamento()
+            => Console.WriteLine($@"
+Escolha a condição de pagamento:
+
+1 - à vista dinheiro/cheque: 10% de desconto
+2 - à vista no cartão: 5% de desconto
+3 - em até 2x no cartão: preço formal
+4 - 3x ou mais no cartão: 20% de juros
+");
+
+        private static string RetornarCondicaoPagamento(double valorProduto, int quantidadeParcelas = 0)
         {
-            Console.Write("\n>Digite o nome do produto: ");
-            nome = Console.ReadLine().Trim();
-            if (!string.IsNullOrWhiteSpace(nome) && !nome.Any(char.IsDigit))
+            Console.Clear();
+            MenuCondicaoPagamento();
+            int opcao;
+            while (true)
             {
-                nome = Capitalize(nome);
+                string entrada = Console.ReadLine().Trim();
+                if(!int.TryParse(entrada, out opcao) || opcao < 1 || opcao > 4)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    continue;
+                }
                 break;
             }
-            else
+            switch (opcao)
             {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida. Esperava uma 'string'\n");
+                case 1:
+                    Console.Clear();
+                    return $"Produto de {valorProduto:C2} reais, à vista, passou a ter 10% de desconto, custando agora {valorProduto * 0.9:C2}\n";
+                case 2:
+                    Console.Clear();
+                    return $"Produto de {valorProduto:C2} reais, à vista no cartão, passou a ter 5% de desconto, custando agora {valorProduto * 0.95:C2}\n";
+                case 3:
+                    Console.Clear();
+                    return $"Produto de {valorProduto:C2} reais, em 2x de {valorProduto/2:C2} reais\n";
+                           
+                case 4:
+                    Console.Clear();
+                    return quantidadeParcelas > 0 
+                            ? $"Produto de {valorProduto:C2} reais, em {quantidadeParcelas}x, passou a ter 20% de juros.\nTotal de {valorProduto * 1.2:C2}\n{quantidadeParcelas}x de {(valorProduto * 1.2)/quantidadeParcelas:C2}\n"
+                            : $"Produto de {valorProduto:C2} reais, não tem valor definido para quantidade de parcelas.\n";
             }
+            return string.Empty;
         }
         
-
-        while (true)
-        {
-            Console.Write("\n>Digite o valor do produto R$: ");
-            string va = Console.ReadLine();
-            if (double.TryParse(va, out valor))
-            {
-                break;
-            }
-            else
-            {
-                Console.Clear();
-                Console.Write(">Entrada inválida. Esperava um número 'inteiro ou real'\n");
-            }
-        }
-        return (nome, valor);
-    }
-
-    static string Capitalize(string nome)
-    {
-        if (string.IsNullOrWhiteSpace(nome))
-        {
-            return nome;
-        }
-        else
-        {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nome.ToLower());
-        }
+        private static void ExibirDados()
+            =>Console.WriteLine(RetornarCondicaoPagamento(RetornarValorProduto(), RetornarQuantidadeParcelas()));
     }
 }
