@@ -1,4 +1,5 @@
 ﻿
+
 /*
 Foi solicitado que você adicionasse um recurso ao software de sua empresa. 
 O recurso destina-se a melhorar a taxa de renovação das assinaturas do software. 
@@ -11,7 +12,7 @@ aplicativo para atender aos requisitos.
 
 Regra 1: seu código deve exibir apenas uma mensagem.
         A mensagem exibida pelo código dependerá das outras cinco regras. 
-        Para as regras de 2 a 6, as regras numeradas mais altas têm precedência sobre as regras numeradas mais baixas.
+        Para as regras de 2 à 6, considere que as numerações mais altas têm precedência sobre as regras numeradas mais baixas.
 
 Regra 2: se a assinatura do usuário expirar em dez dias ou menos, será exibida a mensagem:
         Your subscription will expire soon. Renew now!
@@ -34,55 +35,48 @@ Regra 6: se a assinatura do usuário não expirar em dez dias ou menos, não ser
 Bonus:
     Gere um número aleatório de 0 a 11. 
     O número aleatório é atribuído a uma variável de inteiro chamada: 'diasAteVencimento'. 
-    Você tem outra variável de inteiro chamada 'porcentagemDesconto' que é inicializada para 0.
+    Você tem outra variável de inteiro chamada '_porcentagemDesconto' que é inicializada para 0.
+    Uma variável: valorAssinatura = 100;
 */
+
 using System;
 
-
-namespace Etapa1
+namespace Fundamentos
 {
     public class Program
     {
-        public static void Main(string[] args)
-            => ExibirMensagem();
+        private static Random _sorteioNumero = new Random();
+        private static double _porcentagemDesconto = 0;
 
-        private static int RetornarDiasVencimentoAleatorio()
-            => new Random().Next(12);
+        private static void Main(string[] args)
+            => ExibirDados();
+                
+            
+        private static int RetornarDiasAteVencimento()
+            =>_sorteioNumero.Next(0,12);
 
-        private static void ExibirMensagem()
+
+        private static string RetornarMensagemRenovacao(int diasAteVencimento)
+            => diasAteVencimento > 10 ? string.Empty :
+                diasAteVencimento == 0 ? "Your subscription has expired." :
+                diasAteVencimento == 1 ? $"Your subscription expires within a day!\nRenew now and save {_porcentagemDesconto += 20}%!" :
+                diasAteVencimento <= 5 ? $"Your subscription expires in {diasAteVencimento} days.\nRenew now and save {_porcentagemDesconto += 10}%!" :
+                "Your subscription will expire soon. Renew now!";
+
+
+        private static void ExibirDados()
         {
-            var diasAteVencimento = RetornarDiasVencimentoAleatorio();
-            double porcentagemDesconto = 0;
+            string mensagemRenovacao = RetornarMensagemRenovacao(RetornarDiasAteVencimento());
+
             double valorAssinatura = 100;
 
-            string mensagem = "";
+            double valorAssinaturaComDesconto = _porcentagemDesconto == 10 ? valorAssinatura * 0.90 :
+                                                _porcentagemDesconto == 20 ? valorAssinatura * 0.80 :
+                                                valorAssinatura;
 
-            if(diasAteVencimento <= 0)
-                mensagem += "Sua assinatura expirou. ";
-
-            if(diasAteVencimento == 1)
-            {
-                mensagem += "Sua assinatura expira em um dia! Renove agora e economize 20%! ";
-                porcentagemDesconto += 20.0/100.0;
-            }
-
-            if(diasAteVencimento <= 5)
-            {
-                mensagem += $"Sua assinatura expira em {diasAteVencimento} dias. Renove agora e economize 10%! ";
-                porcentagemDesconto += 10.0/100.0;
-            }
-
-            if(diasAteVencimento <= 10)
-                mensagem += "Sua assinatura expirará em breve. Renove agora! ";
-            
-            if(diasAteVencimento > 10)
-                mensagem += "";
-
-            var valorDesconto = porcentagemDesconto * 100;
-
-            string economia = porcentagemDesconto > 0 ? $"Parabéns você economizou {valorDesconto}.\nNovo valor de assinatura: R${valorAssinatura - valorDesconto:F2}" : ""; 
-            Console.WriteLine($"{mensagem}.\n{economia}");
-
+            Console.WriteLine(_porcentagemDesconto != 0 
+                ? $"{mensagemRenovacao} Congratulations on your {_porcentagemDesconto}% discount!\nOld price {valorAssinatura:C2}\nNew price {valorAssinaturaComDesconto:C2}" 
+                : mensagemRenovacao);
         }
     }
 }
