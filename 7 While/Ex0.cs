@@ -3,39 +3,39 @@
 /*
 Faça um programa que leia o sexo de uma pessoa, mas só aceite os valores 'M' ou 'F'. 
 Caso esteja errado, peça a digitação novamente até ter um valor correto.
- */
+*/
+
 
 using System;
-using System.Globalization;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        string sexo;
-        while (true)
+        private static void Main(string[] args)
+            => ExibirDados();
+        
+        private static string RetornarSexoPessoa()
         {
-            Console.Write("\n>Digite o seu sexo: [M] ou [F]: ");
-            sexo = Console.ReadLine().Trim().ToLower();
-            if (!string.IsNullOrWhiteSpace(sexo))
+            while (true)
             {
-                if (sexo == "m" || sexo == "f")
-                {
-                    break;
-                }
-                else
+                var sexosValidos = new string[] { "M", "F" };
+
+                Console.Write("Digite o sexo da pessoa (M/F):");
+                string sexo = Console.ReadLine().ToUpper();
+                if(string.IsNullOrWhiteSpace(sexo) || !sexosValidos.Contains(sexo))
                 {
                     Console.Clear();
-                    Console.WriteLine(">Entrada inválida. Esperava sexo [F] ou [M]!\n>Tente novamente..");
+                    Console.WriteLine("Sexo inválido, digite novamente. Tente apenas 'M' ou 'F'.");
+                    continue;
                 }
-            }
-            else
-            {
                 Console.Clear();
-                Console.WriteLine(">Entrada inválida. Esperava uma 'string'!\n>Tente novamente..");
+                return sexo;
             }
         }
-        Console.Clear();
-        Console.WriteLine($">Você digitou o sexo corretamente: [{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(sexo)}]");
+
+        private static void ExibirDados()
+            => Console.WriteLine($"Sexo digitado: {RetornarSexoPessoa()}");
     }
 }
