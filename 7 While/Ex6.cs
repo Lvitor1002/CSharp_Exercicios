@@ -1,79 +1,66 @@
 ﻿
+
 /*
-Crie um programa que leia vários números inteiros pelo teclado. 
-No final da execução, mostre a média entre todos os valores e qual foi o maior e o menor valores lidos. 
-O programa deve perguntar ao usuário se ele quer ou não continuar a digitar valores.
- */
+    Crie um programa que leia vários números inteiros pelo teclado. 
+    No final da execução, mostre a média entre todos os valores e qual foi o maior e o menor valores lidos. 
+    O programa deve perguntar ao usuário se ele quer ou não continuar a digitar valores.
+*/
+
 
 using System;
 using System.Collections.Generic;
-class Treino
+using System.Linq;
+
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        var (qtd_numeros, media, maior, menor, numeros) = Leitura();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Clear();
-        Console.Write("\n>Todos os números: "); 
-        foreach (var i in numeros)
+        private static List<int> RetornarListaValores()
         {
-            Console.Write($"{i} | ");
-        }
-        Console.WriteLine($"\n>Quantidade de números digitados: {qtd_numeros}\n" +
-            $">Média dos números: {media:F2}\n" +
-            $">Maior número: {maior}\n" +
-            $">Menor número: {menor}\n");
-    }
+            var listaValores = new List<int>();
+            var entradasValidas = new List<string> { "s", "n" };
 
-    static (int qtd_numeros, double media, int maior, int menor ,List<int> numeros) Leitura()
-    {
-        int numero, soma = 0, qtd_numeros = 0;
-        int maior = int.MinValue, menor = int.MaxValue;
-        double media;
-
-        List<int> numeros = new List<int>();
-
-        Console.WriteLine(">Digite um número!\n>Para Finalizar e exibir resultdos digite[sair]");
-        
-        while (true)
-        {
-            string n = Console.ReadLine().Trim().ToLower();
-            
-                
-            if (n == "sair")
-            {
-                if (qtd_numeros == 0)
-                {
-                    Console.WriteLine("\n>Nenhum número foi digitado!");
-                    return (0, 0, 0, 0, numeros);
-                }
-                media = (double)soma / qtd_numeros;
-                break;
-            }
-
-            if (int.TryParse(n, out numero) && numero > 0)
-            {
-                numeros.Add(numero);
-                soma += numero;
-                qtd_numeros += 1;
-
-                if (numero > maior)
-                {
-                    maior = numero;
-                }
-                if (numero < menor)
-                {
-                    menor = numero;
-                }
-            }
-            else
+            while (true)
             {
                 Console.Clear();
-                Console.WriteLine("\n>Entrada inválida! Esperava um número 'inteiro' ou 'Sair'!");
-                Console.WriteLine(">Digite um número: ");
+                Console.Write("Entre com um valor: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int .TryParse(entrada, out int numero) || numero < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valor inválido. Digite um número inteiro válido e maior ou igual à zero.");
+                    continue;
+                }
+                
+                listaValores.Add(numero);
 
+                while (true)
+                {
+                    Console.Write("Deseja continuar a digitar valores? [s/n] - ");
+                    string entradaSN = Console.ReadLine().Trim().ToLower();
+                    if (string.IsNullOrWhiteSpace(entradaSN) || !entradasValidas.Contains(entradaSN))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Entrada inválida. Digite apenas 's' ou 'n'");
+                        continue;
+                    }
+                    if(entradaSN != "n")
+                        break;
+                    return listaValores;
+                }
             }
         }
-        return (qtd_numeros, media, maior, menor, numeros);
+        private static void ExibirDados()
+        {
+            var listaValores = RetornarListaValores();
+            Console.Clear();
+            Console.WriteLine(listaValores.Any() 
+                ? $"Valores {string.Join(", ",listaValores)}.\nMédia de valores: {listaValores.Average():F2}.\nMaior valor: {listaValores.Max()}\nMenor valor: {listaValores.Min()}\n"
+                : "Não há valores.\n");
+
+        }
     }
 }

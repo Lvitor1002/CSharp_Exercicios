@@ -5,65 +5,58 @@ Escreva um programa que leia um número N inteiro qualquer e mostre na tela
 os N primeiros elementos de uma Sequência de Fibonacci. 
 
 Ex: 0 - 1 - 1 - 2 - 3 - 5 - 8
- */
+*/
+
 
 using System;
 using System.Collections.Generic;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int numero;
 
-        // Inicializa uma lista com os dois primeiros números da sequência de Fibonacci (0 e 1)
-        List<int> lista_fibo = new List<int> { 0, 1 };
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        while (true)
+        private static int RetornarNumeroN()
         {
-            Console.Write("\n>Digite um número 'inteiro' qualquer: ");
-            string n = Console.ReadLine(); 
-
-            if (int.TryParse(n, out numero) && numero > 0)
+            while (true)
             {
-                break;
-            }
-            else
-            {
+                Console.Write("Digite um número: ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int .TryParse(entrada, out int numeroN) || numeroN < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valor inválido. Digite um número inteiro válido e maior ou igual à zero.");
+                    continue;
+                }
                 Console.Clear();
-                Console.WriteLine("\n>Entrada inválida! Esperava um número 'inteiro'!");
+                return numeroN;
             }
         }
-
-        // Gera os números de Fibonacci até que a lista contenha a quantidade desejada de elementos
-        while (lista_fibo.Count < numero)
+        private static List<int> RetornarNElementosFibonacci(int numeroN)
         {
-            // Calcula o próximo número como a soma dos dois últimos números na lista
-            int proximo = lista_fibo[lista_fibo.Count - 1] + lista_fibo[lista_fibo.Count - 2];
-            // Adiciona o próximo número à lista
-            lista_fibo.Add(proximo);
-        }
+            if(numeroN == 0)
+                return new List<int>();
+            
+            if(numeroN == 1)
+                return new List<int>{ 0};
 
-        // Exibe os primeiros 'numero' elementos da sequência de Fibonacci
-        Console.WriteLine($"\n>Os {numero} primeiros elementos da sequência:");
+            var listaFibonacci = new List<int>{ 0,1};
 
-        // Variável auxiliar para controlar o formato da saída (evitar o traço inicial)
-        bool primeiros = true;
-
-        // Itera sobre os números da lista de Fibonacci
-        foreach (int i in lista_fibo)
-        {
-            // Se não for o primeiro número, insere um traço antes de imprimir o próximo número
-            if (!primeiros)
+            while(listaFibonacci.Count < numeroN)
             {
-                Console.Write("-");
+                int proximoElemento = listaFibonacci[listaFibonacci.Count - 1] + listaFibonacci[listaFibonacci.Count - 2];
+                listaFibonacci.Add(proximoElemento);
             }
-            // Imprime o número atual da lista
-            Console.Write(i);
-            // Marca que o primeiro número já foi processado
-            primeiros = false;
+            return listaFibonacci;
         }
 
-        Console.WriteLine();
+        private static void ExibirDados()
+        {
+            int numeroN = RetornarNumeroN();
+            Console.WriteLine($"\nOs {numeroN} primeiros elementos da Sequência de Fibonacci são: {string.Join(" - ", RetornarNElementosFibonacci(numeroN))}.");
+        }
     }
 }
