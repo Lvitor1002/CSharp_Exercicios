@@ -1,56 +1,53 @@
 ﻿
+
 /*
-Contagem de quantidade Par e ímpar usando while:
- */
+    Contagem de quantidade Par e ímpar usando while. '999' para finalizar.:
+*/
+
 
 using System;
-class Treino
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Fundamentos
 {
-    static void Main()
+    public class Program
     {
-        int numero, qtd_numero = 0, par = 0, impar = 0;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Write("\n>Digite alguns números..\n>Para sair digite 'sair'\n");
-        while (true)
+        private static List<int> RetornarListaNumeros()
         {
-            string n = Console.ReadLine().Trim().ToLower();
-            if (n == "sair")
-            {
-                if (qtd_numero == 0)
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Nenhum número foi digitado!\n");
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine($">{qtd_numero} números foram digitados.\n" +
-                        $">{par} Par\n" +
-                        $">{impar} Ímpar\n");
+            var listaValores = new List<int>();
 
-                }
-                break;
-
-            }
-            if (int.TryParse(n, out numero) && numero > 0)
-            {
-                qtd_numero += 1;
-                if (numero % 2 == 0)
-                {
-                    par += 1;
-                }
-                else if (numero % 2 != 0)
-                {
-                    impar += 1;
-                }
-            }
-            else
+            while (true)
             {
                 Console.Clear();
-                Console.WriteLine("\n>Entrada inválida! Esperava um número 'inteiro' ou 'Sair'!");
-                Console.WriteLine(">Digite um número: ");
+                Console.Write("Entre com um valor:\nPara finalizar digite '999'\n- ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int .TryParse(entrada, out int numero) || numero < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valor inválido. Digite um número inteiro válido e maior ou igual à zero.");
+                    continue;
+                }
+                if(numero == 999)
+                    break;
+                listaValores.Add(numero);
             }
+            Console.Clear();
+            return listaValores;
+        }
+
+        private static (int, int) RetornarQuantidadeParImpar(List<int> listaNumeros)
+            => (listaNumeros.Where(x => x % 2 != 0).Count(), listaNumeros.Where(x => x % 2 == 0).Count());
+
+        private static void ExibirDados()
+        {
+            var listaValores = RetornarListaNumeros();
+            var (quantidadeImpar, quantidadePar) = RetornarQuantidadeParImpar(listaValores);
+
+            Console.WriteLine($"Lista dos números: {string.Join(", ",listaValores)}.\n{quantidadeImpar} números ímpares adicionados\n{quantidadePar} números pares adicionados\n");
         }
     }
 }
-
