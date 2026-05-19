@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F3GSVE6w/gc=",
+  "dgSpecHash": "EyCJcHIGvL4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Luiz\\Desktop\\csharp\\Treino APIs\\TestApi\\ViaCepApi.csproj",
+  "projectFilePath": "C:\\Users\\Luiz\\Desktop\\Repositórios Locais\\PROJETOS\\CSharp_Exercicios\\Treino APIs\\TestApi\\ViaCepApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Luiz\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Luiz\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
