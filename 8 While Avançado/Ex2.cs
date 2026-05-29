@@ -1,4 +1,5 @@
 ﻿
+
 /*
     Crie um programa que leia a nome, idade e o sexo de várias pessoas. 
     A cada pessoa cadastrada, o programa deverá perguntar se o usuário quer ou não continuar. 
@@ -6,112 +7,147 @@
     A) quantas pessoas tem mais de 18 anos.
     B) quantos homens foram cadastrados.
     C) quantas mulheres tem menos de 20 anos. 
- */
+*/
+
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TREINO
+
+namespace Fundamentos
 {
-    class Program
+    public class Pessoa
     {
-        static void Main() => Exibir();
+        public string Nome{ get; set; }
+        public string Sexo{ get; set; }
+        public int Idade{ get; set; }
 
+        public Pessoa(string nome, string sexo, int idade)
+        {
+            Nome = nome;
+            Sexo = sexo;
+            Idade = idade;
+        }
 
-        private static List<Pessoa> Leitura()
+        public override string ToString()
+            => $@"
+Nome: {Nome}
+Sexo: {Sexo}
+Idade: {Idade}
+";
+    }
+
+    public static class Program
+    {
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static List<Pessoa> RetornarListaPessoas()
         {
             var listaPessoas = new List<Pessoa>();
-            string nome;
-            int idade, quantidadePessoas = 0;
-            char sexo;
+            int idade, quantidadePessoa = 0;
+            string nome, sexo;
+
             while (true)
             {
-                Console.Write("Entre com a quantidade de pessoas cadastradas: ");
+                Console.Write("Entre com a quantidade de pessoas a ser cadastradas: ");
                 string entrada = Console.ReadLine().Trim();
-                if(!int.TryParse(entrada, out quantidadePessoas) || quantidadePessoas <= 0)
+                if(!int.TryParse(entrada, out quantidadePessoa) || quantidadePessoa <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Por favor, insira um número inteiro positivo.");
+                    Console.WriteLine("Entrada inválida. Entre com um número inteiro e maior que zero!");
                     continue;
                 }
                 break;
             }
-            for(int i =0; i<quantidadePessoas; i++)
+            for(int i = 0; i < quantidadePessoa; i++)
             {
                 Console.Clear();
-                Console.WriteLine($"Cadastro da {i + 1}ª pessoa:");
+                Console.WriteLine($"\t  {i+1}ª Pessoa\n");
                 while (true)
                 {
-                    Console.Write("Entre com o nome do usuário: ");
-                    nome = Console.ReadLine().Trim().ToLower();
+                    Console.Write("Nome: ");
+                    nome = Console.ReadLine().Trim();
                     if (string.IsNullOrWhiteSpace(nome) || !nome.All(c=>char.IsLetter(c) || c == ' '))
                     {
                         Console.Clear();
-                        Console.WriteLine("Entrada inválida. Entre com um nome válido.");
+                        Console.WriteLine("Entrada inválida. Digite apenas um nome.\n");
                         continue;
                     }
                     break;
                 }
+
+                var opcoesSexosValidos = new string[] {"m","f"};
+
                 while (true)
                 {
-                    Console.Write("Entre com o sexo [m/f]: ");
-                    string entrada = Console.ReadLine().Trim().ToLower();
-                    if (!char.TryParse(entrada, out sexo) || (sexo != 'm' && sexo != 'f'))
+                    Console.Write("Sexo: [m/f]");
+                    sexo = Console.ReadLine().Trim().ToLower();
+                    if (string.IsNullOrWhiteSpace(sexo) || !opcoesSexosValidos.Contains(sexo))
                     {
                         Console.Clear();
-                        Console.WriteLine("Entrada inválida. Entre com um sexo válido[m/f].");
+                        Console.WriteLine("Entrada inválida. Digite apenas: 'f' ou 'm'\n");
                         continue;
                     }
                     break;
                 }
+
                 while (true)
                 {
-                    Console.Write("Entre com a idade: ");
-                    string entrada = Console.ReadLine().Trim();
-                    if (!int.TryParse(entrada, out idade) || idade <= 0)
+                    Console.Write("Idade: ");
+                    string entradaIdade = Console.ReadLine().Trim().ToLower();
+                    if (!int.TryParse(entradaIdade, out idade) || idade <= 0)
                     {
                         Console.Clear();
-                        Console.WriteLine("Entrada inválida. Por favor, insira uma idade positivo.");
+                        Console.WriteLine("Entrada inválida. Entre com um número inteiro e maior que zero!");
                         continue;
                     }
                     break;
                 }
-                listaPessoas.Add(new Pessoa(nome, idade, sexo));
+                listaPessoas.Add(new Pessoa(nome,sexo,idade));
             }
             return listaPessoas;
         }
-        private static void Exibir()
+
+        private static int RetornarQuantidadePessoasMaioresDezoitoAnos(List<Pessoa> listaPessoas)
         {
-            var listaPessoas = Leitura();
-            Console.Clear();
-            Console.WriteLine(string.Join("\n", listaPessoas));
-            Console.WriteLine($"\nQuantidade de pessoas com mais de 18 anos: {listaPessoas.Count(p => p.Idade > 18)} Pessoas");
-            Console.WriteLine($"Quantidade de homens cadastrados: {listaPessoas.Count(p => p.Sexo == 'm')} Homens");
-            Console.WriteLine($"Quantidade de mulheres com menos de 20 anos: {listaPessoas.Count(p => p.Sexo == 'f' && p.Idade < 20)} Mulheres");
+            int quantidadePessoasMaioresDezoitoAnos = listaPessoas.Where(p=>p.Idade > 18).Count();
+            return quantidadePessoasMaioresDezoitoAnos > 0 ? quantidadePessoasMaioresDezoitoAnos : 0;
         }
 
-        private class Pessoa
+        private static int RetornarQuantidadeHomensCadastrados(List<Pessoa> listaPessoas)
         {
-            public string Nome{ get; set; }
-            public int Idade{ get; set; }
-            public char Sexo{ get; set; }
+            int quantidadeHomensCadastrados = listaPessoas.Where(p=>p.Sexo == "m").Count();
+            return quantidadeHomensCadastrados > 0 ? quantidadeHomensCadastrados : 0;
+        }
 
-            public Pessoa(string nome, int idade, char sexo)
-            {
-                Nome = nome;
-                Idade = idade;
-                Sexo = sexo;
-            }
+        private static int RetornarQuantidadeMulheresMenoresVinteAnos(List<Pessoa> listaPessoas)
+        {
+            int quantidadeMulheresMenoresVinteAnos = listaPessoas.Where(p => p.Sexo == "f" && p.Idade < 20).Count();
+            return quantidadeMulheresMenoresVinteAnos > 0 ? quantidadeMulheresMenoresVinteAnos : 0;
+        }
 
-            public override string ToString()
+        private static void ExibirDados()
+        {
+            var listaPessoas = RetornarListaPessoas();
+
+            if (!listaPessoas.Any())
             {
-                return $"Nome: {Nome}\n" +
-                    $"Idade: {Idade}\n" +
-                    $"Sexo: {Sexo}\n" +
-                    $"-=-=-=-=-=-=-=-=-=";
+                Console.WriteLine("Não há pessoas cadastradas!");
+                return;
             }
+            
+            Console.Clear();
+            int quantidadePessoasMaioresDezoitoAnos = RetornarQuantidadePessoasMaioresDezoitoAnos(listaPessoas);
+            int quantidadeHomensCadastrados = RetornarQuantidadeHomensCadastrados(listaPessoas);
+            int quantidadeMulheresMenoresVinteAnos = RetornarQuantidadeMulheresMenoresVinteAnos(listaPessoas);
+
+            Console.WriteLine("Todas as pessoas cadastradas");
+            foreach (var p in listaPessoas)
+                Console.WriteLine(p.ToString());
+
+            Console.WriteLine($"Quantidade de Pessoas Maiores de 18 Anos: {quantidadeHomensCadastrados}\nQuantidade de Homens Cadastrados: {quantidadeHomensCadastrados}\nQuantidade de Mulheres Menores de 20 Anos: {quantidadeMulheresMenoresVinteAnos}\n");
         }
     }
 }
-
