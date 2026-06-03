@@ -1,66 +1,74 @@
 ﻿
+
 /*
 Crie um programa que simule o funcionamento de um caixa eletrônico. 
 No início, pergunte ao usuário qual será o valor a ser sacado (número inteiro)
 e o programa vai informar quantas cédulas de cada valor serão entregues.
 OBS: considere que o caixa possui cédulas de R$50, R$20, R$10 e R$1.
- */
+*/
+
 
 using System;
 
-namespace TREINO
-{
-    class Program
-    {
-        static void Main() => Exibir();
 
-        private static int LeituraValor()
+namespace Fundamentos
+{
+    public static class Program
+    {
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static int RetornarNumeroSaque()
         {
-            int valorSaque = 0; 
-            while (true){
-                Console.Write("Digite o valor a ser sacado: R$ ");
-                string entrada = Console.ReadLine().Trim();
-                if(!int.TryParse(entrada, out valorSaque) || valorSaque <= 0)
+            while (true)
+            {
+                Console.Write($"Digite um valor de saque desejado: R$ ");
+                string entradaPreco = Console.ReadLine().Trim().ToLower();
+                if (!int.TryParse(entradaPreco, out int valorSaque) || valorSaque <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Valor inválido. Por favor, insira um número inteiro ou real positivo.");
+                    Console.WriteLine("Entrada inválida. Entre com um número inteiro, maior que zero!");
                     continue;
                 }
                 return valorSaque;
             }
         }
-        private static (int,int,int,int, int) SimuladorCaixaEletronico()
+
+        private static (int, int, int, int) RetornarCedulasReferenteValorSaque(int valorSaque)
         {
-            int valorSaque = LeituraValor();
             int valorRestante = valorSaque;
+
             int nota50 = 0, nota20 = 0, nota10 = 0, nota1 = 0;
-            
-            nota50 = valorRestante / 50;           //São necessárias tantas notas de 50 
-            valorRestante = valorRestante % 50;    //Atualiza o valor restante
 
-            nota20 = valorRestante / 20;           //São necessárias tantas notas de 20
-            valorRestante = valorRestante % 20;    //Atualiza o valor restante
+            nota50 = valorRestante / 50;        //São necessárias tantas notas de 50 
+            valorRestante %= 50;                //Atualiza o valor restante
 
-            nota10 = valorRestante / 10;           //São necessárias tantas notas de 10
-            valorRestante = valorRestante % 10;    //Atualiza o valor restante
+            nota20 = valorRestante / 20;
+            valorRestante %= 20;
 
-            nota1 = valorRestante;  
+            nota10 = valorRestante / 10;
+            valorRestante %= 10;
 
-            return (nota50, nota20, nota10, nota1, valorSaque);
+            nota1 = valorRestante;
+
+            return (nota50, nota20, nota10, nota1);
         }
-        private static void Exibir()
+
+
+        private static void ExibirDados()
         {
-            var (notas50, notas20, notas10, notas1, valorSaque) = SimuladorCaixaEletronico();
+            int valorSaque = RetornarNumeroSaque();
+            var (notas50, notas20, notas10, notas1) = RetornarCedulasReferenteValorSaque(valorSaque);
+
             Console.Clear();
             Console.WriteLine("\n=== Distribuição das Cédulas ===\n");
-            if (notas50 > 0) Console.WriteLine($"Notas de R$50: {notas50}");
-            if (notas20 > 0) Console.WriteLine($"Notas de R$20: {notas20}");
-            if (notas10 > 0) Console.WriteLine($"Notas de R$10: {notas10}");
-            if (notas1 > 0) Console.WriteLine($"Notas de R$1 : {notas1}");
+            if (notas50 > 0) Console.WriteLine($"{notas50} Notas de R$50");
+            if (notas20 > 0) Console.WriteLine($"{notas20} Notas de R$20");
+            if (notas10 > 0) Console.WriteLine($"{notas10} Notas de R$10");
+            if (notas1 > 0) Console.WriteLine($"{notas1} Notas de R$1");
 
             Console.WriteLine($"\nTotal sacado: R${valorSaque}");
             Console.WriteLine("=================================");
         }
     }
 }
-
