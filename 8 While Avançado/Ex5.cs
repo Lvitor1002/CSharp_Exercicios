@@ -35,49 +35,53 @@ Enquanto o herói e o monstro tiverem saúde superior a zero, a batalha recomeç
                                 
                                 Imprima o vencedor.
  */
+
+
 using System;
+
 
 namespace Fundamentos
 {
-    internal class Program
+    public static class Program
     {
-        private static Random _gerarAtaque = new Random(); // Para instanciar apenas uma vez
+        private static int _saudeHeroi = 10;
+        private static int _saudeMonstro = 10;
+        private static Random _gerarValorAtaque = new Random();
 
-        static void Main(string[] args)
-            => JogarRPG();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        private static int RetornarValoresAtaque()
-            => _gerarAtaque.Next(1, 11);
+        private static int RetornarValorAtaque()
+            => _gerarValorAtaque.Next(1, 11);
 
-        private static void JogarRPG()
+
+        private static void ExecutarBatalhaHeroiMonstro()
         {
-            int saudeAtualHeroi = 10, saudeAtualMonstro = 10;
-
             do
             {
-                int valorAtaqueHeroi = RetornarValoresAtaque();
+                int valorAtaqueHeroi = RetornarValorAtaque();
+                int valorAtaqueMonstro = RetornarValorAtaque();
 
-                saudeAtualMonstro -= valorAtaqueHeroi;
-                Console.WriteLine($"Herói atacou o monstro causando {valorAtaqueHeroi} de dano.\nMonstro perdeu {valorAtaqueHeroi} de vida, agora tem {Math.Max(0, saudeAtualMonstro)} de vida.\n"); //(Math.Max) - evitar que a saída mostre valores negativos
-
-                if (saudeAtualMonstro <= 0)
+                _saudeMonstro -= valorAtaqueHeroi;
+                Console.WriteLine($"O herói atacou o monstro e causou {valorAtaqueHeroi} de dano. O monstro tem {Math.Max(0, _saudeMonstro)} de vida.\n"); //(Math.Max) - evitar que a saída mostre valores negativos
+                if (_saudeMonstro <= 0)
                 {
-                    Console.WriteLine("O herói venceu a batalha!");
-                    break;
+                    Console.WriteLine($"\nO herói venceu a batalha com {_saudeHeroi} de saúde!\n");
+                    return;
                 }
 
-                int valorAtaqueMonstro = RetornarValoresAtaque();
-
-                saudeAtualHeroi -= valorAtaqueMonstro;
-                Console.WriteLine($"Monstro atacou o herói causando {valorAtaqueMonstro} de dano.\nHerói perdeu {valorAtaqueMonstro} de vida, agora tem {Math.Max(0, saudeAtualHeroi)} de vida.\n");
-                
-                if (saudeAtualHeroi <= 0)
+                _saudeHeroi -= valorAtaqueMonstro;
+                Console.WriteLine($"O monstro atacou o herói e causou {valorAtaqueMonstro} de dano. O herói tem {Math.Max(0, _saudeHeroi)} de vida restante.\n");
+                if (_saudeHeroi <= 0)
                 {
-                    Console.WriteLine("O monstro venceu a batalha!");
-                    break;
+                    Console.WriteLine($"\nO monstro venceu a batalha com {_saudeMonstro} de saúde!\n");
+                    return;
                 }
 
-            } while(saudeAtualHeroi > 0 && saudeAtualMonstro > 0);
+            } 
+            while (_saudeMonstro > 0 && _saudeHeroi > 0);
         }
+        private static void ExibirDados()
+            =>ExecutarBatalhaHeroiMonstro();
     }
 }
