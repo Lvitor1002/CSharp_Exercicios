@@ -1,123 +1,83 @@
-﻿/* 
+﻿
+
+/* 
 Crie uma tupla preenchida com os 21 primeiros colocados da Tabela do Campeonato Brasileiro de Futebol, 
 na ordem de colocação. Depois mostre:
-a) Os 5 primeiros times.
-b) Os últimos 4 colocados.
-c) Times em ordem alfabética. 
-d) Em que posição está o time da Chapecoense.
-e) Escolha um time para saber a posição
+    a) Os 5 primeiros times.
+    b) Os últimos 4 colocados.
+    c) Times em ordem alfabética. 
+    d) Em que posição está o time da Chapecoense.
+    e) Escolha um time para saber a posição
 */
 
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace TREINO
+
+
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main() => EscolhaMenu();
+        private static readonly string[] _arrayPrimeirosColocadosCampeonatoBR = {"PALMEIRAS", "ATLÉTICO MG", "BOTAFOGO", "FLAMENGO", "GRÊMIO",
+                                                                        "RED BULL", "FLUMINENSE", "ATHLETICO PR", "SÃO PAULO", "INTERNACIONAL",
+                                                                        "CHAPECOENSE", "FORTALEZA", "CUIABÁ", "CORINTHIANS", "CRUZEIRO",
+                                                                        "SANTOS", "VASCO", "BAHIA", "GOIÁS", "CURITIBA", "AMÉRICA MG"};
 
-        static readonly string[] times = {
-            "PALMEIRAS", "ATLÉTICO MG", "BOTAFOGO", "FLAMENGO", "GRÊMIO",
-            "RED BULL", "FLUMINENSE", "ATHLETICO PR", "SÃO PAULO", "INTERNACIONAL",
-            "CHAPECOENSE", "FORTALEZA", "CUIABÁ", "CORINTHIANS", "CRUZEIRO",
-            "SANTOS", "VASCO", "BAHIA", "GOIÁS", "CURITIBA", "AMÉRICA MG"
-        };
-        private static void Menu()
-            =>Console.WriteLine("a) Os 5 primeiros times.\r\nb) Os últimos 4 colocados.\r\nc) Times em ordem alfabética. \r\nd) Em que posição está o time da Chapecoense.\r\ne) Escolha um time para saber a posição");
-        private static void EscolhaMenu()
+        private static void Main(string[] args)
+            => ExibirDados();
+
+
+        
+
+        //Usando IEnumerable<string> pois não é preciso definir o tipo da coleção que está sendo retornada, a mesma pode ser lista, array, etc.. e quem chama o método não precisa saber se os dados vêm de um array, lista ou outra coleção.
+        private static IEnumerable<string> RetornarCincoPrimeirosTimes()
+            => _arrayPrimeirosColocadosCampeonatoBR.Take(5);
+
+        private static IEnumerable<string> RetornarQuatroUltimosColocados()
+            => _arrayPrimeirosColocadosCampeonatoBR.Skip(_arrayPrimeirosColocadosCampeonatoBR.Length - 4);
+
+        private static IEnumerable<string> RetornarTimesOrdemAlfabetica()
+            => _arrayPrimeirosColocadosCampeonatoBR.OrderBy(t=>t);
+
+        private static int RetornarPosicaoTimeChapecoense()
+            => Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, "CHAPECOENSE") + 1;
+
+     
+        private static int RetornarPosicaoTimeEscolhido()
         {
-            var validas = new[] { 'a', 'b', 'c', 'd', 'e' };
-            Menu();
             while (true)
             {
-                string entrada = Console.ReadLine().Trim().ToLower();
-                if (!char.TryParse(entrada, out char escolha) || !validas.Contains(escolha))
+                Console.WriteLine("Digite o nome de um time para saber a posição: ");
+                string timeEscolhido = Console.ReadLine().ToUpper();
+                if(string.IsNullOrEmpty(timeEscolhido) || !timeEscolhido.All(c=>char.IsLetter(c) || c == ' '))
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Entre com uma das opções válidas.");
-                    Menu(); 
+                    Console.WriteLine("Entrada inválida. Por favor, digite um nome de time válido.");
                     continue;
                 }
-                switch (escolha)
-                {
-                    case 'a':
-                        Console.Clear();
-                        CincoPrimeirosTimes();
-                        break;
 
-                    case 'b':
-                        Console.Clear();
-                        UltimosQuatroTimes();
-                        break;
-
-                    case 'c':
-                        Console.Clear();
-                        TimesOrdemAlfabetica();
-                        break;
-
-                    case 'd':
-                        Console.Clear();
-                        PosicaoChapecoense();
-                        break;
-
-                    case 'e':
-                        Console.Clear();
-                        PosicaoTimeEscolhido();
-                        break;
-                }
-                break;
-            }   
-        }
-
-        private static void PosicaoTimeEscolhido()
-        {
-            string entrada;
-            while (true)
-            {
-                Console.Write("e) Escolha um time para saber a posição: ");
-                entrada = Console.ReadLine().Trim().ToLower();
-                if (string.IsNullOrWhiteSpace(entrada))
+                if (_arrayPrimeirosColocadosCampeonatoBR.FirstOrDefault(t => t.Equals(timeEscolhido, StringComparison.OrdinalIgnoreCase)) == null) //Ignora diferença entre maiúsculas e minúsculas.
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Entre com um time válido.");
-                    Menu();
+                    Console.WriteLine($"O time {timeEscolhido} não está na lista dos 21 primeiros colocados. Por favor, tente novamente.");
                     continue;
-                }
-                break;
+                };
+
+                return Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, timeEscolhido) + 1;
             }
-            //A comparação é feita pelo valor exato do caractere na tabela Unicode.
-            //Ignora diferença entre maiúsculas e minúsculas.
-            var timeEscolhido = times.FirstOrDefault(x => x.Equals(entrada, StringComparison.OrdinalIgnoreCase));
-            Console.WriteLine(timeEscolhido != null                 
-                ? $"O time {timeEscolhido} está na {Array.IndexOf(times, timeEscolhido) + 1}ª posição.\n"
-                : $"O time {entrada} não está na lista dos 21 primeiros colocados.\n");
         }
 
-
-        private static void PosicaoChapecoense()
+        private static void ExibirMenu() 
         {
-            var posicaoChapecoense = Array.IndexOf(times, "CHAPECOENSE") + 1;
-            Console.WriteLine($"A Chapecoense está na {posicaoChapecoense}ª posição.\n");
+            AQUI
         }
-
-        private static void TimesOrdemAlfabetica()
+        private static void ExibirDados()
         {
-            var timesOrdemAlfabetica = times.OrderBy(x=>x);
-            Console.WriteLine($"Times em ordem alfabética:\n{string.Join("\n", timesOrdemAlfabetica)}\n");
-        }
-
-        private static void UltimosQuatroTimes()
-        {
-            var ultimosQuatroTimes = times.Skip(times.Length - 4);
-            Console.WriteLine($"Os 4 últimos times: {string.Join(", ", ultimosQuatroTimes)}\n");
-        }
-
-        private static void CincoPrimeirosTimes()
-        {
-            var cincoPrimeiros = times.Take(5);
-            Console.WriteLine($"Os 5 primeiros times: {string.Join(", ", cincoPrimeiros)}\n");
-        }
+            //Console.WriteLine($"{string.Join(", ", RetornarTimesOrdemAlfabetica())}.");
+                    //Console.WriteLine($"O time {timeEscolhido} está na {Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, timeEscolhido) + 1}ª posição.\n");
+        } 
     }
 }
-
