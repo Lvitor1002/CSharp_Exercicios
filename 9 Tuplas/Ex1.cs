@@ -12,7 +12,6 @@ na ordem de colocação. Depois mostre:
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -30,27 +29,27 @@ namespace Fundamentos
             => ExibirDados();
 
 
+        //Dica: IEnumerable<string> pois não é preciso definir o tipo da coleção que está sendo retornada, a mesma pode ser lista, array, etc.. e quem chama o método não precisa saber se os dados vêm de um array, lista ou outra coleção.
         
 
-        //Usando IEnumerable<string> pois não é preciso definir o tipo da coleção que está sendo retornada, a mesma pode ser lista, array, etc.. e quem chama o método não precisa saber se os dados vêm de um array, lista ou outra coleção.
-        private static IEnumerable<string> RetornarCincoPrimeirosTimes()
-            => _arrayPrimeirosColocadosCampeonatoBR.Take(5);
+        private static void ExibirCincoPrimeirosTimes()
+            => Console.WriteLine($"5's primeiros times: {string.Join(", ",_arrayPrimeirosColocadosCampeonatoBR.Take(5))}.");
 
-        private static IEnumerable<string> RetornarQuatroUltimosColocados()
-            => _arrayPrimeirosColocadosCampeonatoBR.Skip(_arrayPrimeirosColocadosCampeonatoBR.Length - 4);
+        private static void ExibirQuatroUltimosColocados()
+            => Console.WriteLine($"4's últimos colocados: {string.Join(", ",_arrayPrimeirosColocadosCampeonatoBR.Skip(_arrayPrimeirosColocadosCampeonatoBR.Length - 4))}.");
 
-        private static IEnumerable<string> RetornarTimesOrdemAlfabetica()
-            => _arrayPrimeirosColocadosCampeonatoBR.OrderBy(t=>t);
+        private static void ExibirTimesOrdemAlfabetica()
+            => Console.WriteLine($"Times em ordem Alfabética: {string.Join(", ",_arrayPrimeirosColocadosCampeonatoBR.OrderBy(t=>t))}.");
 
-        private static int RetornarPosicaoTimeChapecoense()
-            => Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, "CHAPECOENSE") + 1;
+        private static void ExibirPosicaoTimeChapecoense()
+            => Console.WriteLine($"O time 'Chapecoense' está localizado na posição {Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, "CHAPECOENSE") + 1}ª da lista.");
 
      
-        private static int RetornarPosicaoTimeEscolhido()
+        private static void ExibirPosicaoTimeEscolhido()
         {
             while (true)
             {
-                Console.WriteLine("Digite o nome de um time para saber a posição: ");
+                Console.Write("Digite o nome de um time para saber a posição: ");
                 string timeEscolhido = Console.ReadLine().ToUpper();
                 if(string.IsNullOrEmpty(timeEscolhido) || !timeEscolhido.All(c=>char.IsLetter(c) || c == ' '))
                 {
@@ -66,18 +65,74 @@ namespace Fundamentos
                     continue;
                 };
 
-                return Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, timeEscolhido) + 1;
+                Console.Clear();
+                Console.WriteLine($"O time '{timeEscolhido}' está localizado na posição {Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, timeEscolhido) + 1}ª da lista.");
+                break;
             }
         }
 
         private static void ExibirMenu() 
         {
-            AQUI
+            Console.WriteLine(@"
+1 - Os 5 primeiros times.
+2 - Os últimos 4 colocados.
+3 - Times em ordem alfabética. 
+4 - Em que posição está o time da Chapecoense.
+5 - Escolha um time para saber a posição
+6 - Sair
+");
+        }
+
+        private static void EscolherOpcaoMenu()
+        {
+            while (true)
+            {
+                int escolha;
+                ExibirMenu();
+                while (true)
+                {
+                    Console.Write("Digite o número da opção desejada: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if(!int.TryParse(entrada, out escolha) || escolha < 1 || escolha > 6)
+                    {
+                        Console.Clear();
+                        ExibirMenu();
+                        Console.WriteLine("Entrada inválida. Por favor, digite um número entre 1 e 6.");
+                        continue;
+                    }
+                    break;
+                }
+
+                switch (escolha)
+                {
+                    case 1:
+                        Console.Clear();
+                        ExibirCincoPrimeirosTimes();
+                        break;
+                    case 2:
+                        Console.Clear();
+                        ExibirQuatroUltimosColocados();
+                        break;
+                    case 3:
+                        Console.Clear();
+                        ExibirTimesOrdemAlfabetica();
+                        break;
+                    case 4:
+                        Console.Clear();
+                        ExibirPosicaoTimeChapecoense();
+                        break;
+                    case 5:
+                        Console.Clear();
+                        ExibirPosicaoTimeEscolhido();
+                        break;
+                    case 6:
+                        Console.Clear();
+                        Console.WriteLine("Saindo do programa. Obrigado por usar!");
+                        return;
+                }
+            }
         }
         private static void ExibirDados()
-        {
-            //Console.WriteLine($"{string.Join(", ", RetornarTimesOrdemAlfabetica())}.");
-                    //Console.WriteLine($"O time {timeEscolhido} está na {Array.IndexOf(_arrayPrimeirosColocadosCampeonatoBR, timeEscolhido) + 1}ª posição.\n");
-        } 
+            =>EscolherOpcaoMenu();
     }
 }
