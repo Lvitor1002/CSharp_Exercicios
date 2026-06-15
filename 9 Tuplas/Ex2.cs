@@ -6,33 +6,30 @@ Depois disso, mostre a listagem de números gerados e também indique o menor e 
 por fim, a tupla ordenada:.
 */
 
+
 using System;
 using System.Linq;
 
-namespace TREINO
+
+
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main() => Exibir();
+        private static Random sortearNumero = new Random();
 
+        private static void Main(string[] args)
+            => ExibirDados();
 
+        private static int[] RetornarArrayCincoNumerosAleatorios()
+            => Enumerable.Range(0, 5).Select(i => sortearNumero.Next(1, 11)).ToArray();
 
-        static int[] GerarCincoNumeros()
+        private static void ExibirDados()
         {
-            int[] numeros = new int[5];
-            Random gerar = new Random();
-            for (int i = 0; i < 5; i++)
-                numeros[i] = gerar.Next(1, 11); 
-            return numeros;
-        }
-
-        private static void Exibir()
-        {
-            var numeros = GerarCincoNumeros();
-            var ordenados = numeros.OrderBy(x => x);
-            Console.Clear();
-            Console.WriteLine($"Números gerados: {string.Join(", ", numeros)}\nMaior valor: {numeros.Max(x=>x)}\nMenor valor: {numeros.Min(x => x)}\nNúmeros ordenados: {string.Join(", ", ordenados)}\n");
+            var numerosAleatorios = RetornarArrayCincoNumerosAleatorios();
+            Console.WriteLine($"Números Gerados: {string.Join(", ", numerosAleatorios)}.");
+            Console.WriteLine($"Maior número gerado: {numerosAleatorios.Max()}.\nMenor número gerado: {numerosAleatorios.Min()}.");
+            Console.WriteLine($"Números Ordenados: {string.Join(", ", numerosAleatorios.OrderBy(n => n).ToArray())}.");
         }
     }
 }
-
