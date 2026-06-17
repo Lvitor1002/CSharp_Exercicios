@@ -1,8 +1,7 @@
 ﻿
 
-
 /* 
-Desenvolva um programa que leia quatro valores pelo teclado e guarde-os em uma tupla. No final, mostre:
+Desenvolva um programa que leia quatro _arrayValores pelo teclado e guarde-os em uma tupla. No final, mostre:
 
 A) Quantas vezes apareceu o valor 9.
 B) Em que posição foi digitado o primeiro valor 3.
@@ -10,48 +9,76 @@ C) Quais foram os números pares.
 d) Tupla Ordenada
 */
 
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace TREINO
-{
-    class Program
-    {
-        static void Main() => Exibir();
 
-        private static int[] LeituraDados()
-        {
-            var tupla = new int[4];
-            Console.WriteLine("Digite 4 valores: ");
-            for (int i = 0; i < tupla.Length; i++)
+
+namespace Fundamentos
+{
+    public static class Program
+    {
+        private static int [] _arrayValores = new int[4];
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static void PopularArrayComQuatroNumeros()
+        {            
+            for(int i = 0; i < _arrayValores.Length; i++)
             {
+                Console.Clear();
                 while (true)
                 {
+                    Console.Write($"Digite o {i+1}ª valor: ");
                     string entrada = Console.ReadLine().Trim();
-                    if (!int.TryParse(entrada, out int numero) || numero < 0)
+                    if(!int.TryParse(entrada, out int valor))
                     {
                         Console.Clear();
-                        Console.WriteLine("Entrada inválida. Entre com um número inteiro e positivo.");
+                        Console.WriteLine("Valor inválido. Por favor, digite um número inteiro.");
                         continue;
                     }
-                    tupla[i] = numero;
+                    _arrayValores[i] = valor;
                     break;
                 }
             }
-            return tupla;
-        }
-        private static void Exibir()
-        {
-            var tupla = LeituraDados();
             Console.Clear();
-            int quantidadeVezesNove = tupla.Count(x => x.Equals(9));
-            int posicaoValorTres = Array.IndexOf(tupla, 3) + 1;
-            var numerosPares = tupla.Where(x => x % 2 == 0);
-            Console.WriteLine(quantidadeVezesNove > 0 ? $"Valor 9 apareceu {quantidadeVezesNove} veze(s)." : "Valor 9 não foi inserido");
-            Console.WriteLine(posicaoValorTres > 0 ? $"Posição do valor 3: {posicaoValorTres}ª" : "Valor 3 não foi inserido");
-            Console.WriteLine(numerosPares.Count() > 0 ? $"Números pares: {string.Join(", ",numerosPares)}" : "Não há valores pares!");
-            Console.WriteLine($"Valores Ordenados: {string.Join(", ", tupla.OrderBy(x => x))}");
+        }
+
+        private static int RetornarQuantidadeValorNove()
+            => _arrayValores.Count(v=>v == 9);
+
+
+        private static int RetornarPrimeriaPosicaoTres()
+            => Array.IndexOf(_arrayValores, 3) + 1;
+
+
+        private static List<int> RetornarListaNumerosPares()
+            => _arrayValores.Where(v=>v % 2 == 0).ToList();
+
+
+        private static void ExibirDados()
+        {
+            PopularArrayComQuatroNumeros();
+            int quantidadeNove = RetornarQuantidadeValorNove();
+            int posicaoTres = RetornarPrimeriaPosicaoTres();
+            var numerosPares = RetornarListaNumerosPares();
+
+            Console.WriteLine($"\nTodos os valores: {string.Join(", ", _arrayValores)}.\n");
+
+            //A) Quantas vezes apareceu o valor 9.
+            Console.WriteLine(quantidadeNove > 0 ? $"O valor 9 apareceu {quantidadeNove}x\n" : "");
+
+            //B) Em que posição foi digitado o primeiro valor 3.
+            Console.WriteLine(posicaoTres > 0 ? $"O valor 3 foi digitado na posição {posicaoTres}ª\n" : "");
+
+            //C) Quais foram os números pares.
+            Console.WriteLine(numerosPares.Any() ? $"Números pares: {string.Join(", ", numerosPares)}.\n" : "");
+
+            //d) Tupla Ordenada
+            Console.WriteLine($"Tupla ordenada: {string.Join(", ", _arrayValores.OrderBy(v => v))}.\n");
         }
     }
 }
-
