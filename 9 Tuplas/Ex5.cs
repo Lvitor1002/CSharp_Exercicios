@@ -1,42 +1,35 @@
 ﻿
 
-
 /* 
-Crie um programa que tenha uma tupla com várias palavras (não usar acentos). 
-Depois disso, você deve mostrar, para cada palavra, quais são as suas vogais.
+    Crie um programa que tenha uma tupla com várias palavras (não usar acentos). 
+    Depois disso, você deve mostrar, para cada palavra, quais são as suas vogais.
 */
 
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace TREINO
+
+
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main() => Exibir();
-       
-        private static void Exibir()
+        private static readonly string[] _palavras = {"pastel", "sabonete", "panela", "piada", "pernambuco","cachorro", "tabuada", "paraguai", "esquecido"};
+        private static readonly char[] _vogais = {'a', 'e', 'i', 'o', 'u'};
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+
+        private static void ExibirDados()
         {
-            string[] palavras = {"pastel", "sabonete", "panela", "piada", "pernambuco",
-                            "cachorro", "tabuada", "paraguai", "esquecido"};
-
-            char[] vogais = { 'a', 'e', 'i', 'o', 'u' };
-
-            Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            Console.WriteLine($"Palavras   | Vogais");
-            Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            foreach (var palavra in palavras)
+            foreach (var palavra in _palavras)
             {
-                var vogais_palavra = palavra.Where(x => vogais.Contains(x))
-                    .Distinct()
-                    .OrderBy(x => x)
-                    .ToArray();
+                var vogaisPalavra = palavra.Where(x => _vogais.Contains(x)).Distinct().OrderBy(x => x).ToArray();
 
-                Console.WriteLine($"{palavra,-10} | {string.Join(", ", vogais_palavra)}");
+                Console.WriteLine($"{palavra.PadRight(10).ToUpper()} |{string.Join(", ", vogaisPalavra).PadRight(12).ToUpper()}|");
             }
-            Console.WriteLine("-=-=");
         }
     }
 }
-

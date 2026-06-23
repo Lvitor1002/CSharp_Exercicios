@@ -1,22 +1,25 @@
 ﻿
 
-
 /* 
 Crie um programa que tenha uma tupla única com nomes de produtos e seus respectivos preços, na sequência. 
 No final, mostre uma listagem de preços, organizando os dados em forma tabular.
 */
 
-using System;
-using System.Linq;
 
-namespace TREINO
+using System;
+
+
+
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main() => Exibir();
-        private static (string, decimal)[] RetornaProdutos()
-        {
-            return new (string Nome, decimal Preco)[]
+
+        private static void Main(string[] args)
+            => ExibirDados();
+
+        private static (string, decimal)[] RetornarArrayProdutos()
+            => new (string, decimal)[]
                 {("Caderino", 10.49m),
                 ("Panela", 80.99m),
                 ("Chaleira", 10.99m),
@@ -30,15 +33,14 @@ namespace TREINO
                 ("Colchão", 100.99m),
                 ("Seda", 887.99m),
                 ("Panela", 81.99m)};
-        }
-        private static void Exibir()
+
+
+
+        private static void ExibirDados()
         {
-            var produtos = RetornaProdutos();
-            var produtosFormatados = produtos.Select(p => $"{p.Item1,-10} - \t{p.Item2,6:C}").ToArray();
-            Console.WriteLine(">Produtos:\n-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-            Console.WriteLine($"{string.Join("\n", produtosFormatados)}");
-            Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+            Console.WriteLine("Produto      -      Preço\n");
+            foreach (var produto in RetornarArrayProdutos())
+                Console.WriteLine($"{produto.Item1.PadRight(20)}{produto.Item2:C2}");
         }
     }
 }
-
