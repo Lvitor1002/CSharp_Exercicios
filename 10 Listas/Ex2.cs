@@ -1,5 +1,6 @@
 ﻿
 
+
 /*
 Crie um programa que vai ler vários números e colocar em uma lista. Depois disso, mostre:
 A) Quantos números foram digitados.
@@ -7,65 +8,62 @@ B) A lista de valores, ordenada de forma decrescente.
 C) Se o valor 5 foi digitado e está ou não na lista.
 */
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.Server;
 
-class Treino
+
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        var valores = Leitura();
-        Exibir(valores);
-    }
+        private static List<int> _listaNumeros = new List<int>();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-    static List<int> Leitura()
-    {
-        var valores = new List<int>();
-        int valor; 
 
-        Console.WriteLine(">Digite abaixo alguns valores 'inteiros'.\n>Para interromper digite 'sair'.");
-        while (true)
+        private static void PopularListaValoresInput()
         {
-            Console.Write(">Valor: ");
-            string v = Console.ReadLine().Trim().ToLower();
-            if(v == "sair")
+            Console.Write($"Digite um valor:\nPara finalizar digite 'sair'.\n\n>");
+            while (true)
             {
-                break;
-            }else if(int.TryParse(v,out valor) && valor >= 0)
-            {
-                valores.Add(valor);
+                string entrada = Console.ReadLine().Trim().ToLower();
+
+                if(entrada == "sair")
+                    break;
+
+                if (!int.TryParse(entrada, out int valor) || valor < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valor inválido. Digite um número inteiro positivo.");
+                    continue;
+                }
+
+                _listaNumeros.Add(valor);
             }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida. Digite um número 'inteiro' positivo ou 'sair'!");
-            }
+            Console.Clear();
         }
-        return valores;
-    }
-    static void Exibir(List<int> valores)
-    {
-        Console.Clear();
-        Console.WriteLine("-=-=-=-=-=-= Valores -=-=-=-=-=-=\n");
-        
-        //Quantos números foram digitados.
-        Console.WriteLine($">Foram digitados {valores.Count} números.\n");
 
-        //A lista de valores, ordenada de forma decrescente.
-        Console.WriteLine($">Valores ordenados em ordem decrescente: {string.Join(", ",valores.OrderByDescending(x => x))}.\n");
+        private static int RetornarQuantidadeValoresNaLista()
+            => _listaNumeros.Count() > 0 ? _listaNumeros.Count() : 0;
 
-        //Se o valor 5 foi digitado e está ou não na lista
-        if (valores.Contains(5))
+        private static bool ValorCincoEhDigitado()
+            => _listaNumeros.Contains(5);
+
+
+        private static void ExibirDados()
         {
-            Console.WriteLine(">5 foi adicionado!\n");
-        }
-        else
-        {
-            Console.WriteLine(">5 não foi adicionado!\n");
-        }
+            PopularListaValoresInput();
 
-        Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+            //A) Quantos números foram digitados.
+            Console.WriteLine($"Quantidade de números digitados: {RetornarQuantidadeValoresNaLista()}.");
+
+            //B) A lista de valores, ordenada de forma decrescente.
+            Console.Write($"\nLista de valores, ordenada de forma decrescente: {string.Join(", ", _listaNumeros.OrderByDescending(v=>v))}.\n");
+
+            //C) Se o valor 5 foi digitado e está ou não na lista.
+            Console.WriteLine($"\nO valor 5 {(ValorCincoEhDigitado() ? "foi digitado." : "não foi digitado.")}\n\n");
+        }        
     }
 }

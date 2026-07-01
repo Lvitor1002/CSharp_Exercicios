@@ -9,47 +9,49 @@ No final, serão exibidos todos os valores únicos digitados, em ordem crescente
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        var valores = Leitura();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        Console.Clear();
-        Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
-        Console.WriteLine($">Valores: {string.Join(", ",valores)}.");
-        Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
-    }
-    static List<int> Leitura()
-    {
-        var valores = new List<int>();
-        int valor;
 
-        Console.WriteLine(">Digite alguns valores inteiros..\n>Para finalizar, digite 'sair'");
-        while (true)
+        private static List<int> RetornarListaValoresInput()
         {
-            string v = Console.ReadLine().Trim().ToLower();
-            if(v == "sair")
+            var listaNumeros = new List<int>();
+            
+            Console.Write($"Digite um valor:\nPara finalizar digite 'sair'.\n\n>");
+            while (true)
             {
-                break;
-            }
-            else if(int.TryParse(v, out valor) && valor >= 0)
-            {
-                if (valores.Contains(valor))
+                string entrada = Console.ReadLine().Trim().ToLower();
+
+                if(entrada == "sair")
+                    break;
+
+                if (!int.TryParse(entrada, out int valor) || valor < 0)
                 {
                     Console.Clear();
-                    Console.WriteLine($">Valor '{valor}' já adicionado!");
+                    Console.WriteLine("Valor inválido. Digite um número inteiro positivo.");
+                    continue;
                 }
-                valores.Add(valor);
+
+                if(listaNumeros.Contains(valor))
+                {
+                    Console.WriteLine($"Valor {valor} já existe na lista. Digite outro número.");
+                    continue;
+                }
+                listaNumeros.Add(valor);
             }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(">Entrada inválida! Digite um número 'inteiro' positivo ou 'sair'!\n");
-            }
+            Console.Clear();
+            return listaNumeros;
         }
-        return valores;
+
+        private static void ExibirDados()
+            => Console.Write($"\nValores únicos digitados em ordem crescente: {string.Join(", ", RetornarListaValoresInput().OrderBy(v=>v))}.\n\n");
+        
     }
 }
