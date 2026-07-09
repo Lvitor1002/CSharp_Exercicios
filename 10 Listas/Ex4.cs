@@ -1,5 +1,6 @@
 ﻿
 
+
 /*
 Crie um programa onde o usuário digite uma expressão qualquer que use parênteses. 
 Seu aplicativo deverá analisar se a expressão passada está com os parênteses abertos e 
@@ -9,47 +10,60 @@ fechados na ordem e quantidade correta.
 
 using System;
 
-
-
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        int contador = 0;
-        Console.Write("\n>Digite uma expressão qualquer: ");
-        string exp = Console.ReadLine().Trim();
 
-        foreach(char c in exp)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+
+        private static string RetornarExpressaoInput()
         {
-            if (c == '(')
+            Console.Write($"Digite uma expressão entre parênteses: ");
+            while (true)
             {
-                contador++; //Quantidade de parênteses abertos
-            }
-            else if(c == ')')
-            {
-                contador --; //Parênteses fechados
+                string expressao = Console.ReadLine().Trim().ToLower();
+              
 
-                // Verifica se há mais parênteses fechados do que abertos até o momento
-                if (contador < 0)
+                if (string.IsNullOrWhiteSpace(expressao))
                 {
                     Console.Clear();
-                    Console.WriteLine("Expressão inválida: parênteses fechados fora de ordem.");
-                    return; 
+                    Console.WriteLine("Entrada inválida. É necessário digitar a expressão.");
+                    continue;
                 }
+                if(!ValidarExpressao(expressao))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. A expressão deve começar com '(' e terminar com ')'.");
+                    continue;
+                }
+                Console.Clear();
+                return expressao;
             }
         }
 
-        // Verifica se todos os parênteses abertos foram fechados
-        if (contador == 0)
+        private static bool ValidarExpressao(string expressao)
         {
-            Console.Clear();
-            Console.WriteLine("Expressão válida: todos os parênteses estão balanceados.");
+            int contadorParenteses = 0;
+            
+            foreach (char caractere in expressao)
+            {
+                if (caractere == '(')
+                    contadorParenteses++;
+
+                else if (caractere == ')')
+                    contadorParenteses--;
+
+                if (contadorParenteses < 0)
+                    return false; // fechamento sem abertura
+            }
+            return contadorParenteses == 0;
         }
-        else
-        {
-            Console.Clear();
-            Console.WriteLine("Expressão inválida: existem parênteses não fechados.");
-        }
+
+        private static void ExibirDados()
+            =>Console.WriteLine(RetornarExpressaoInput());
+
     }
 }
-
