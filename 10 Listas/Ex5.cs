@@ -1,145 +1,134 @@
 ﻿
 
+
+
 /*
-Faça um programa que leia nome e peso de várias pessoas, guardando tudo em uma lista. 
-No final, mostre:
-A) Quantas pessoas foram cadastradas.
-B) Pessoa mais pesada.
-C) Pessoa mais leve.
+    Faça um programa que leia nome e peso de várias pessoas, guardando tudo em uma lista. 
+    No final, mostre:
+                    A) Quantas pessoas foram cadastradas.
+                    B) Pessoa mais pesada.
+                    C) Pessoa mais leve.
 */
+
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Globalization;
-using Microsoft.SqlServer.Server;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        var pessoas = Leitura();
-        var (pesado, leve, nome_pesado, nome_leve) = Peso_Pesado_Leve(pessoas);
-        Exibir(pessoas, pesado, leve, nome_pesado, nome_leve);
 
-    }
-    static List<Pessoa> Leitura()
-    {
-        var pessoas = new List<Pessoa>();
-        string nome;
-        double peso;
-        int i = 0;
+        private static void Main(string[] args)
+            => ExibirDados();
 
-        while (true)
+
+        private static List<Pessoa> RetornarListaPessoas()
         {
-            Console.Clear();
-            Console.WriteLine($">{i+1}ª Pessoa -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+            var listaPessoas = new List<Pessoa>();
+            int qtdPessoas;
+            string nome;
+            float peso = 0;
 
-            Console.Write(">Digite o seu nome: ");
             while (true)
             {
-                nome = Console.ReadLine().ToLower().Trim();
-                if (!string.IsNullOrWhiteSpace(nome) && nome.All(c => char.IsLetter(c) | c == ' '))
+                Console.Write("Digite a quantidade de pessoas a serem cadastradas: ");
+                string entrada = Console.ReadLine().Trim();
+                if (!int.TryParse(entrada, out qtdPessoas) || qtdPessoas <= 0)
                 {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Entre com um número inteiro e maior que zero.");
+                    continue;
+                }
+                break;
+            }
+
+            for(int i = 0; i < qtdPessoas; i++)
+            {
+                Console.Clear();
+                Console.WriteLine($"Pessoa {i + 1}:");
+                while (true)
+                {
+                    Console.Write("Digite o nome da pessoa: ");
+                    nome = Console.ReadLine().Trim();
+                    if(string.IsNullOrWhiteSpace(nome) || !nome.All(c=>char.IsLetter(c) || c == ' '))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Nome inválido. Digite apenas letras e espaços.");
+                        continue;
+                    }
                     nome = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nome.ToLower());
                     break;
                 }
-                else
+                while (true)
                 {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida. Digite um nome válido sem o uso de caracteres especiais!");
-                }
-            }
-
-            Console.Clear();
-            Console.Write($">{nome}, agora, digite o seu peso em KG: ");
-            while (true)
-            {
-                string pe = Console.ReadLine();
-                if (double.TryParse(pe, out peso) && peso > 0)
-                {
+                    Console.Write("Digite o peso da pessoa: ");
+                    string entrada = Console.ReadLine().Trim().Replace(".",",");
+                    if (!float.TryParse(entrada, NumberStyles.Float, CultureInfo.CurrentCulture,out peso) || peso <= 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Entrada inválida. Entre com um número inteiro ou real maior que zero.");
+                        continue;
+                    }
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida. Digite um número de peso 'inteiro' ou 'real', válido e positivo!");
-                }
+                listaPessoas.Add(new Pessoa(nome, peso));
             }
-            pessoas.Add(new Pessoa { Nome = nome, Peso = peso });
+            return listaPessoas;
+        }
+      
+        private static int RetornarQuantidadePessoas(List<Pessoa> listaPessoas)
+            => listaPessoas.Count;
+
+        private static Pessoa RetornarPessoaMaisPesada(List<Pessoa> listaPessoas)
+            => listaPessoas.Count > 0 ? listaPessoas.OrderByDescending(p => p.Peso).First() : null;
+
+        private static Pessoa RetornarPessoaMaisLeve(List<Pessoa> listaPessoas)
+            => listaPessoas.Count > 0 ? listaPessoas.OrderBy(p => p.Peso).First() : null;
+
+
+        private static void ExibirDados()
+        {
+            var listaPessoas = RetornarListaPessoas();
+            var pessoaMaisPesada = RetornarPessoaMaisPesada(listaPessoas);
+            var pessoaMaisLeve = RetornarPessoaMaisLeve(listaPessoas);
 
             Console.Clear();
-            Console.Write($">{nome}, deseja continuar à adicionar mais pessoas? [S/N]: ");
-            while (true)
+
+            if(listaPessoas.Count == 0)
             {
-                string op = Console.ReadLine().Trim().ToLower();
-                if(op == "s")
-                {
-                    i += 1;
-                    break;
-                }
-                else if(op == "n")
-                {
-                    return pessoas;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida. Digite apenas 's' para conituar e 'n' para encerrar!");
-                }
+                Console.WriteLine("Nenhuma pessoa cadastrada.");
+                return;
             }
+
+            Console.WriteLine($"\n--------------------------------------------------");
+            Console.WriteLine("Todas as pessoas cadastradas:\n");
+            foreach(var pessoa in listaPessoas)
+                Console.WriteLine(pessoa);
+            Console.WriteLine("--------------------------------------------------");
+
+            Console.WriteLine($"{RetornarQuantidadePessoas(listaPessoas)} pessoas foram cadastradas.\n");
+            Console.WriteLine(pessoaMaisPesada != null ? $"{pessoaMaisPesada.Nome} é a pessoa mais pesada cadastrada, pesando {pessoaMaisPesada.Peso}Kg.\n" : "\n");
+            Console.WriteLine(pessoaMaisLeve != null ? $"{pessoaMaisLeve.Nome} é a pessoa mais leve cadastrada, pesando {pessoaMaisLeve.Peso}Kg.\n" : "\n");
         }
-    }
-    class Pessoa
-    {
-        public string Nome { get; set; }
-        public double Peso { get; set; }
-    }
 
-    static (double, double, string,string) Peso_Pesado_Leve(List<Pessoa> pessoas)
-    {
-        double pesado = double.MinValue;
-        string nome_pesado = "";
 
-        double leve = double.MaxValue;
-        string nome_leve = "";
-        
-        for(int i = 0; i < pessoas.Count; i++)
+        private class Pessoa
         {
-            if (pessoas[i].Peso > pesado)
+            public string Nome { get; set; }
+            public float Peso{ get; set; }
+
+            public Pessoa(string nome, float peso)
             {
-                pesado = pessoas[i].Peso;
-                nome_pesado = pessoas[i].Nome;
+                Nome = nome;
+                Peso = peso;
             }
-            if(pessoas[i].Peso < leve)
-            {
-                leve= pessoas[i].Peso;
-                nome_leve = pessoas[i].Nome;
 
-            }
+            public override string ToString()
+                =>$"Nome: {Nome}\nPeso: {Peso:F2} kg\n";
+            
         }
-        return (pesado, leve, nome_pesado, nome_leve);
     }
-
-    static void Exibir(List<Pessoa> pessoas, double pesado, double leve,string nome_pesado, string nome_leve)
-    {
-        Console.Clear();
-        Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-= Exibindo Dados =--=-=-=-=-=-=-=-=-=-=-=\n");
-        // Todas as pessoas.
-        foreach (var p in pessoas)
-        {
-            Console.WriteLine($"{p.Nome} - Peso Kg:{p.Peso:F2}");
-            Console.WriteLine("----------------------------------");
-        }
-        // Quantas pessoas foram cadastradas.
-        Console.WriteLine($"\n>[{pessoas.Count}] pessoas foram cadastras.\n");
-
-        // Pessoa mais pesada.
-        Console.WriteLine($">{nome_pesado} é pessoa mais pesada, com {pesado}Kg.\n");
-
-        // Pessoa mais leve.
-        Console.WriteLine($">{nome_leve} é pessoa mais leve, com {leve}Kg.\n");
-        Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-    }
-
 }
