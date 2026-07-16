@@ -1,86 +1,64 @@
 ﻿
 
+
+
 /*
-Crie um programa onde o usuário possa digitar sete valores numéricos e
-cadastre-os em uma lista única e que mantenha também nesta lista separados os valores pares e ímpares. 
-No final, mostre os valores pares e ímpares em ordem crescente.
+    Crie um programa onde o usuário possa digitar sete valores numéricos e
+    cadastre-os em uma lista única e que mantenha também nesta lista separados os valores pares e ímpares. 
+    No final, mostre os valores pares e ímpares em ordem crescente.
 */
+
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.Server;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        var numeros = Leitura();
-        var listas = Listas_Par_Impar(numeros);
-        Exibir(numeros, listas);
-    }
-    static int[] Leitura()
-    {
-        var numeros = new int[7];
-        int numero;
 
-        Console.Clear();
-        Console.WriteLine(">Digite 7 números abaixo: ");
-        for (int i = 0; i < 7; i++) {
-            while (true)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+
+        private static List<List<int>> RetornarListaPessoas()
+        {
+            var listaNumeros = new List<List<int>>{ new List<int>(), new List<int>()};
+
+            for (int i = 0; i < 7; i++)
             {
-                Console.Write($"{i + 1}ª: ");
-                string n = Console.ReadLine();
-                if (int.TryParse(n, out numero) && numero >= 0)
+                Console.Clear();
+                while (true)
                 {
-                    numeros[i] = numero;
+                    Console.Write($"Digite o {i + 1}ª Número: ");
+                    string entrada = Console.ReadLine().Trim();
+                    if(!int.TryParse(entrada, out int numero) || numero < 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Entrada inválida. Digite um número 'inteiro' positivo.");
+                        continue;
+                    }
+
+                    if(numero % 2 == 0)
+                        listaNumeros[0].Add(numero);
+                    else
+                        listaNumeros[1].Add(numero);
+
                     break;
                 }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(">Entrada inválida. Digite um número 'inteiro' positivo.");
-                }
             }
+            Console.Clear();
+            return listaNumeros;
         }
-        return numeros;
-    }
-    
-    static List<List<int>> Listas_Par_Impar(int[] numeros)
-    {
-        var listas = new List<List<int>> { new List<int>(), new List<int>() };
-        
-        var lista_par = listas[0];
-        var lista_impar = listas[1];
+      
 
-        foreach(var n in numeros)
+        private static void ExibirDados()
         {
-            if(n % 2 == 0)
-            {
-                lista_par.Add(n);
-            }
-            else if(n % 2 != 0)
-            {
-                lista_impar.Add(n);
-            }
-        }
-        return listas;
-    }
-
-    static void Exibir(int[] numeros,List<List<int>> listas)
-    {
-        Console.Clear();    
-        Console.WriteLine($"\n>Valores Ordenados: {string.Join(", ",numeros.OrderBy(x => x))}.\n"
-            );
-
-        if (listas[0].Count > 0)
-        {
-            Console.WriteLine($">Valores Pares Ordenados: {string.Join(", ", listas[0].OrderBy(x => x))}.\n");
-        }
-        if (listas[1].Count > 0)
-        {
-            Console.WriteLine($">Valores Ímpares Ordenados: {string.Join(", ", listas[1].OrderBy(x => x))}.\n\n");
+            var listaPessoas = RetornarListaPessoas();
+            Console.WriteLine($"Lista de todos os Números : {string.Join(",", listaPessoas.SelectMany(n=>n).OrderBy(n => n))}.\n");
+            Console.WriteLine($"Lista de Números Pares: {string.Join(",", listaPessoas[0].OrderBy(n => n))}.\n");
+            Console.WriteLine($"Lista de Números Ímpares: {string.Join(",", listaPessoas[1].OrderBy(n => n))}.\n");
         }
     }
-
 }

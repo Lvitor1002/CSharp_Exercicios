@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BtgApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5548408a9bca2198d20abc3fbbdd678c6d792a1d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4782b72cc9177bd6e061ebd835fe083ec63f007f")]
 [assembly: System.Reflection.AssemblyProductAttribute("BtgApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BtgApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

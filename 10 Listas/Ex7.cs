@@ -1,5 +1,20 @@
 ﻿
 
+/*
+    Exercício – Análise de uma Matriz 3×3
+
+    Faça um programa que leia os valores de uma matriz inteira de 3 linhas por 3 colunas.
+
+    Após o preenchimento da matriz, o programa deverá:
+
+    Calcular e exibir a soma de todos os valores pares presentes na matriz.
+    Calcular e exibir a soma dos valores da terceira coluna.
+    Encontrar e exibir o maior valor da segunda linha.
+    Exibir a matriz preenchida em formato de tabela.
+    Regras
+    Aceite apenas números inteiros positivos (ou zero).
+    Caso o usuário digite um valor inválido, solicite a entrada novamente.
+*/
 
 using System;
 
