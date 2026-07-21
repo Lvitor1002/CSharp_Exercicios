@@ -1,117 +1,98 @@
 ﻿
-
 /*
-    Exercício – Análise de uma Matriz 3×3
+    Matriz 3×3
 
-    Faça um programa que leia os valores de uma matriz inteira de 3 linhas por 3 colunas.
+    Faça um programa que leia os valores para prrencher uma matriz inteira de 3 linhas por 3 colunas.
 
     Após o preenchimento da matriz, o programa deverá:
-
-    Calcular e exibir a soma de todos os valores pares presentes na matriz.
-    Calcular e exibir a soma dos valores da terceira coluna.
-    Encontrar e exibir o maior valor da segunda linha.
-    Exibir a matriz preenchida em formato de tabela.
-    Regras
-    Aceite apenas números inteiros positivos (ou zero).
-    Caso o usuário digite um valor inválido, solicite a entrada novamente.
+                                    Calcular e exibir a soma de todos os valores pares presentes na matriz.
+                                    Calcular e exibir a soma dos valores da terceira coluna.
+                                    Encontrar e exibir o maior valor da segunda linha.
+                                    Exibir a matriz preenchida em formato de tabela.
 */
 
+
 using System;
+using System.Linq;
 
-class Treino
+namespace Fundamentos
 {
-    static void Main()
+    public static class Program
     {
-        var matriz = Leitura(); 
-        var (soma_par, soma_valores_terceira_coluna, maior_valor_segunda_linha) = Calculos(matriz);
-        Exibir(soma_par, soma_valores_terceira_coluna, maior_valor_segunda_linha, matriz);
-    }
-    static int[,] Leitura()
-    {
-        var matriz = new int[3,3];
-        int valor;
 
-        Console.WriteLine(">Preencha abaixo: ");
-        for(int l = 0; l<3; l++)
+        private static void Main(string[] args)
+            => ExibirDados();
+
+
+        private static int[,] RetornarMatriz()
         {
-            for(int c = 0; c < 3; c++)
-            {
-                while (true)
-                {
-                    Console.Write($"[{l+1},{c+1}]ª: ");
-                    string v = Console.ReadLine();
+            var matriz = new int[3,3];
 
-                    if(int.TryParse(v, out valor) && valor >= 0)
+            for (int linha = 0; linha < 3; linha++)
+            {
+                for (int coluna = 0; coluna < 3; coluna++)
+                { 
+                    Console.Clear();
+                    while (true)
                     {
-                        matriz[l, c] = valor;
+                        Console.Write($"Digite o [{linha + 1}ª Linha, {coluna + 1} Coluna]ª Número: ");
+                        string entrada = Console.ReadLine().Trim();
+                        if(!int.TryParse(entrada, out int numero) || numero < 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Entrada inválida. Digite um número 'inteiro' positivo.");
+                            continue;
+                        }
+                        matriz[linha, coluna] = numero;
                         break;
                     }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine(">Entrada inválida. Digite um número 'inteiro' e positivo!");
-                    }
                 }
             }
+            Console.Clear();
+            return matriz;
         }
-        return matriz;
-    }
-    static (int soma_par, int soma_valores_terceira_coluna, int maior_valor_segunda_linha) Calculos(int[,] matriz)
-    {
-        int soma_par = 0, soma_valores_terceira_coluna = 0;
 
-        int maior_valor_segunda_linha = int.MinValue;
+        private static int RetornarSomatorioTotalMatriz(int[,] matriz)
+            => matriz.Cast<int>().Where(x => x % 2 == 0).Sum();
 
-        //A soma de todos os valores pares digitados
-        for (int l = 0; l < matriz.GetLength(0); l++)
+
+        private static int RetornarSomatorioTerceiraColunaMatriz(int[,] matriz)
+            => Enumerable.Range(0, 3).Select(linha => matriz[linha, 2]).Sum();
+
+
+        private static int RetornarMaiorValorSegundaLinhaMatriz(int[,] matriz)
+            => Enumerable.Range(0, 3).Select(coluna => matriz[1, coluna]).Max();
+
+
+        private static void ExibirDados()
         {
-            for (int c = 0; c < matriz.GetLength(1); c++)
+            var matriz = RetornarMatriz();
+            
+
+            //Calcular e exibir a soma de todos os valores pares presentes na matriz.
+            Console.WriteLine($"Soma de todos os valores pares da matriz: {RetornarSomatorioTotalMatriz(matriz)}\n");
+
+
+            //Calcular e exibir a soma dos valores da terceira coluna.
+            Console.WriteLine($"Soma de todos os valores da tercera coluna da matriz: {RetornarSomatorioTerceiraColunaMatriz(matriz)}\n");
+
+
+            //Encontrar e exibir o maior valor da segunda linha.
+            Console.WriteLine($"Maior valor da segunda linha da matriz: {RetornarMaiorValorSegundaLinhaMatriz(matriz)}\n");
+
+
+            // Exibir a matriz preenchida em formato de tabela.
+            Console.WriteLine("Matriz 3x3 preenchida:\n");
+            for (int linha = 0; linha < 3; linha++)
             {
-                if (matriz[l,c] % 2 == 0)
+                Console.Write("|");
+                for (int coluna = 0; coluna < 3; coluna++)
                 {
-                    soma_par += matriz[l, c];
+                    Console.Write($"{matriz[linha, coluna],3}  | ");
                 }
-                
-
-                //A soma dos valores da terceira coluna.
-                if (c == 2)
-                {
-                    soma_valores_terceira_coluna += matriz[l, c];
-                }
-
-                //O maior valor da segunda linha.
-                if(l == 1)
-                {
-                    if (matriz[l,c] > maior_valor_segunda_linha)
-                    {
-                        maior_valor_segunda_linha = matriz[l, c];
-                    }
-                }
+                Console.WriteLine();
             }
+            Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-");
         }
-        return (soma_par, soma_valores_terceira_coluna, maior_valor_segunda_linha);
-    }
-    static void Exibir(int soma_par, int soma_valores_terceira_coluna, int maior_valor_segunda_linha, int[,] matriz)
-    {
-        Console.Clear();
-        Console.WriteLine("\n-=-=-=-=-=-=- Matriz -=-=-=-=-=-=-\n");
-
-        for (int l = 0; l < 3; l++)
-        {
-            Console.Write("|");
-            for (int c = 0; c < 3; c++)
-            {
-                Console.Write($"{matriz[l, c],3} | ");
-            }
-            Console.WriteLine();
-        }
-
-        Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-        Console.WriteLine(soma_par > 0 ? $"> Soma dos números pares: {soma_par}" : "> Sem valores pares!\n");
-        Console.WriteLine($"> Soma dos números da terceira coluna: {soma_valores_terceira_coluna}\n");
-        Console.WriteLine($"> Maior número da segunda linha: {maior_valor_segunda_linha}");
-        Console.WriteLine("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     }
 }
-
-
