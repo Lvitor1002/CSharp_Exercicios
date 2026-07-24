@@ -1,70 +1,66 @@
 ﻿
-
 /*
     Faça um programa que ajude um jogador da MEGA SENA a criar palpites.
     O programa vai perguntar quantos jogos serão gerados e vai sortear 6 números entre 1 e 60 para cada jogo, 
     cadastrando tudo em uma lista composta.
 */
 
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main()
-        {
-            Exibir();
-        }
-        public static List<HashSet<int>> Leitura()
-        {
-            var jogos = new List<HashSet<int>>();
+        private static readonly Random sorteioNumeros = new Random();
 
-            /*Evita a necessidade de verificar manualmente se um número já está presente na coleção antes de adicioná - lo. */
-            //Lista temporária contendo os números de 1 à 60 sem repetilos
-            Random sorteio = new Random();
+        private static void Main(string[] args)
+            => ExibirDados();
 
-            int quantidade = 0;
+
+        private static List<HashSet<int>> RetornarListaPalpites()
+        {
+            int quantidadeJogos = 0;
+            var listaSorteios = new List<HashSet<int>>(); /*Evita a necessidade de verificar manualmente se um número já está presente na coleção antes de adicioná - lo. */
+
+
             while (true)
             {
-                Console.Write("Quantos jogos serão gerados? ");
-                string qtd = Console.ReadLine().Trim();
-                if(!int.TryParse(qtd, out quantidade) || quantidade <= 0)
+                Console.Write("Quantos jogos você quer gerar? ");
+                string entrada = Console.ReadLine().Trim();
+                if(!int.TryParse(entrada, out quantidadeJogos) || quantidadeJogos <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Entrada inválida. Digite um número 'inteiro' maior que zero!");
+                    Console.WriteLine("Entrada inválida. Por favor, digite um número inteiro positivo.");
                     continue;
                 }
                 break;
             }
 
-            for (int i = 0; i < quantidade; i++)
+            for(int i = 0; i < quantidadeJogos; i++)
             {
                 HashSet<int> numeros = new HashSet<int>();
 
-                while (numeros.Count < 6)
-                {
-                    numeros.Add(sorteio.Next(1,61));
-                }
-                jogos.Add(numeros);
-            }
-            return jogos;
-        }
-        public static void Exibir()
-        {
-            var jogos = Leitura();
-            Console.Clear();
+                while(numeros.Count < 6) 
+                    numeros.Add(sorteioNumeros.Next(1, 61));
 
-            Console.WriteLine($"-=-=-= Sorteio da Mega sena -=-=-=\n\n" +
-                        $">Foram ao todo {jogos.Count} jogos: \n");
-            for (int i = 0; i<jogos.Count;i++)
-            {
-                Console.WriteLine($"{i+1}ª Palpite: {string.Join(", ", jogos[i]),4}\n");
+                listaSorteios.Add(numeros);
             }
+
+            Console.Clear();
+            return listaSorteios;
+        }
+
+      
+
+        private static void ExibirDados()
+        {
+            var listaSorteios = RetornarListaPalpites();
+            int soma = 1;
+
+            foreach(var jogo in listaSorteios)
+                Console.WriteLine($"{soma++}ª Jogo: {string.Join(", ", jogo)}.");
         }
     }
 }
-
