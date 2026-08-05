@@ -1,163 +1,162 @@
 ﻿
-
 /*
     Crie um programa que leia nome e duas notas de vários alunos e guarde tudo em uma lista composta. 
     No final, mostre um boletim contendo a média de cada um
     e permita que o usuário possa mostrar as notas de cada aluno individualmente.
 */
 
+
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using TREINO.Entities;
+using System.Text;
 
-namespace TREINO
+namespace Fundamentos
 {
-    class Program
+    public static class Program
     {
-        static void Main()
-        {
-            Exibir();
-        }
-        static public List<Aluno> Leitura()
-        {
+        private static void Main(string[] args)
+            => ExibirDados();
 
-            var alunos = new List<Aluno>();
+        private static List<Aluno> RetornarListaAlunos()
+        {
+            var listaAlunos = new List<Aluno>();
+            
+
+            int quantidadeAlunos;
+            double nota;
+            string nome;
 
             while (true)
             {
-                string nome;
-                var notas = new Notas[2];
-                double notaAluno;
+                Console.Write("Quantos alunos serão cadastrados? ");
+                string entrada = Console.ReadLine().Trim();
+
+                if(!int.TryParse(entrada, out quantidadeAlunos) || quantidadeAlunos <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Entrada inválida. Por favor, insira um número inteiro positivo.");
+                    continue;
+                }
+                break;
+            }
+
+            for (int i = 0; i < quantidadeAlunos; i++)
+            {
+                Console.Clear();
+                Console.WriteLine($"\t      {i + 1}ª Aluno\n");
+
 
                 while (true)
                 {
-                    Console.Write("Entre com o nome do aluno: ");
-                    nome = Console.ReadLine().Trim().ToLower();
+                    Console.Write("Nome: ");
+                    nome = Console.ReadLine().Trim();
+
                     if (string.IsNullOrWhiteSpace(nome) || !nome.All(c => char.IsLetter(c) || c == ' '))
                     {
                         Console.Clear();
-                        Console.WriteLine("Entrada inválida. Digite um nome válido!");
+                        Console.WriteLine("Entrada inválida. Por favor, insira um nome válido.");
                         continue;
                     }
                     nome = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nome.ToLower());
                     break;
                 }
 
-                Console.Clear();
-                Console.WriteLine($"Entre com 2 notas para o aluno {nome}: \n");
-                for (int i = 0; i < notas.Length; i++)
+                Nota[] notas = new Nota[2];
+
+                for (int n = 0; n < notas.Length; n++)
                 {
-                    Console.Write($"\t\t{i + 1}ª Nota: ");
                     while (true)
                     {
-                        string n = Console.ReadLine().Trim();
-                        if (!double.TryParse(n, out notaAluno) || notaAluno < 0 || notaAluno > 10)
+                        Console.Write($"{n + 1}ª Nota: ");
+                        string entrada = Console.ReadLine().Trim();
+
+                        if (!double.TryParse(entrada, out nota) || nota <= 0 || nota > 10)
                         {
                             Console.Clear();
-                            Console.WriteLine("Entrada inválida. Digite um número 'inteiro' ou 'real' maior que zero menor que 11!");
+                            Console.WriteLine("Entrada inválida. Por favor, insira um número inteiro ou real positivo de 1 à 10.");
                             continue;
                         }
-                        Notas nota = new Notas(notaAluno);
-                        notas[i] = nota;
+                        notas[n] = new Nota(nota);
                         break;
                     }
-
                 }
-
-                Aluno aluno = new Aluno(nome, notas);
-                alunos.Add(aluno);
-
-                while (true)
-                {
-                    Console.Write("Deseja adicionar mais alunos? [S/N] ");
-                    string op = Console.ReadLine().Trim().ToLower();
-                    if (op == "s")
-                    {
-                        Console.Clear();
-                        break;
-                    }
-                    if (op == "n")
-                    {
-                        Console.Clear();
-                        return alunos;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Entrada inválida. Digite apenas 's' ou 'n'");
-                        continue;
-                    }
-                }
+                listaAlunos.Add(new Aluno(nome, notas));
             }
-        }
-        public static void Exibir()
-        {
-            var alunos = Leitura();
             Console.Clear();
-            int soma = 0;
-            Console.WriteLine("\t   Alunos\n");
-            foreach (var aluno in alunos)
-            {
-                Console.WriteLine("-=-=-=-=-=-=-=-=-=-=-=-=\n" +
-                    $"{soma += 1}ª índice('Posição')");
-                Console.WriteLine(aluno.ToString());
-            }
+            return listaAlunos;
+        }
 
-            int indice = 0;
-            Console.WriteLine(">Escolha pelo índice('Posição') um aluno para exibir as notas separadamente:\n");
+        private static void ProcessarEscolhaAluno(List<Aluno> listaAlunos)
+        {
             while (true)
             {
-                string indc = Console.ReadLine().Trim();
-                if (!int.TryParse(indc, out indice) || indice < 1 || indice > alunos.Count)
+                Console.WriteLine("Lista de Alunos:");
+                for (int i = 0; i < listaAlunos.Count(); i++)
+                    Console.WriteLine($"{i + 1} - {listaAlunos[i].Nome}");
+
+
+                Console.Write("\nEscolha um aluno para exibir os seus dados digitando a sua respectiva posição.\n(ou digite 'sair' para encerrar):\n- ");
+                string entrada = Console.ReadLine().Trim().ToLower();
+                if (entrada == "sair")
+                    return;
+
+                if (!int.TryParse(entrada, out int escolha) || escolha <= 0 || escolha > listaAlunos.Count())
                 {
                     Console.Clear();
-                    Console.WriteLine($"Entrada inválida ou fora do intervalo. Digite um número 'inteiro' maior que zero e menor que {alunos.Count}!");
+                    Console.WriteLine($"Entrada inválida. Por favor, insira um número inteiro positivo de 1 à {listaAlunos.Count()} correspondente a um aluno ou digite 'sair' para encerrar.\n\n");
                     continue;
                 }
-                break;
+
+                Console.Clear();
+                Console.WriteLine($"{listaAlunos[escolha - 1]}");
             }
-            var escolha = alunos[indice - 1];
-
-            Console.Clear();
-            Console.WriteLine($"\tAluno escolhido - {escolha.Nome}\n");
-            Console.WriteLine($"\tNotas: {string.Join(" & ", escolha.Notas.Select(n=>n.Nota.ToString("F1")))}\n\n");
         }
+        private static void ExibirDados()
+            => ProcessarEscolhaAluno(RetornarListaAlunos());
     }
-    internal class Notas
-    {
-        public double Nota{ get; set; }
-        public Notas(double nota)
-        {
-            Nota = nota;
-        }
-       
-    }
-    internal class Aluno
-    {
-        public string Nome{ get; set; }
-        public Notas[] Notas { get; set; } = new Notas[2];
-        public double Media { get; set; }
 
-        public Aluno(string nome, Notas[] notas)
+    public class Aluno
+    {
+        public string Nome { get; set; }
+        public Nota[] Notas { get; set; } = new Nota[2];
+
+        public Aluno(string nome, Nota[] notas)
         {
             Nome = nome;
             Notas = notas;
         }
 
+        private double RetornarMedia()
+            => Notas.Average(n => n.ValorNota);
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Nome: {Nome}");
-            sb.AppendLine("Notas:");
-            for(int i = 0; i < Notas.Length; i++)
-            {
-                sb.AppendLine($"\t{i+1}ª Nota: {Notas[i].Nota:F1}");
-            }
-            sb.AppendLine($"\nMedia: {Notas.Average(n=>n.Nota)}");
+            int soma = 1;
+
+            sb.Append($@"Nome: {Nome}
+");
+            foreach (var nota in Notas)
+                sb.AppendLine($"{soma++}ª Nota: {nota.ValorNota}");
+
+            sb.AppendLine($"Média: {RetornarMedia():F2}");
+            sb.AppendLine("-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+
             return sb.ToString();
         }
     }
-}
+    public class Nota
+    {
+        public double ValorNota { get; set; }
 
+        public Nota(double nota)
+            => ValorNota = nota;
+
+        public string ToString()
+            => $"{ValorNota}";
+    }
+
+}
